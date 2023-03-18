@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,10 +29,12 @@ class MyApp extends StatelessWidget {
           onBackground: Colors.black,
           surface: Color(0xFFFFFFC0),
           onSurface: Colors.black,
-          )
+        ),
       ),
       
-      home: Container(),
+      home: Scaffold(
+        body: PantallaRegistro()
+      ),
     );
   }
 }
