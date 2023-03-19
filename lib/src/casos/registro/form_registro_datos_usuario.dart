@@ -33,6 +33,7 @@ class _FormRegDatosUsuarioState extends State<FormRegDatosUsuario> {
               // Nombre
               FormBuilderTextField(
                 name: 'nombre',
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration( label: Text("Nombre:") ),
                 validator: FormBuilderValidators.required(errorText: "Ingrese su nombre"),
               ),
@@ -40,6 +41,7 @@ class _FormRegDatosUsuarioState extends State<FormRegDatosUsuario> {
               // Primer Apellido
               FormBuilderTextField(
                 name: 'apellido_1',
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration( label: Text("Primer Apellido") ),
                 validator: FormBuilderValidators.required(errorText: "Ingrese su primer apellido"),
               ),
@@ -47,6 +49,7 @@ class _FormRegDatosUsuarioState extends State<FormRegDatosUsuario> {
               // Segundo Apellido
               FormBuilderTextField(
                 name: 'apellido_2',
+                keyboardType: TextInputType.name,
                 decoration: const InputDecoration( label: Text("Segundo Apellido:") ),
               ),
 
@@ -66,8 +69,9 @@ class _FormRegDatosUsuarioState extends State<FormRegDatosUsuario> {
               // Número telefónico
               FormBuilderTextField(
                 name: 'num_tel',
-                decoration: const InputDecoration( label: Text("Número telefónico:") ),
+                keyboardType: TextInputType.phone,
                 maxLength: 10,
+                decoration: const InputDecoration( label: Text("Número telefónico:") ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(errorText: "Ingrese su número telefónico"),
                   FormBuilderValidators.numeric(errorText: "Ingrese un número telefónico válido"),
