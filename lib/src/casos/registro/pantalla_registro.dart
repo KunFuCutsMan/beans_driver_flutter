@@ -1,5 +1,6 @@
 
 import 'package:beans_driver_flutter/src/casos/registro/form_registro_rol_usuario.dart';
+import 'package:beans_driver_flutter/src/casos/registro/form_registro_ubi_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -53,7 +54,10 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
         resultado: _aumentaIndex,
       );
 
-      case 1: return const Text("formulario 2");
+      case 1: return FormRegUbicacionUsuario(
+        formKey: widget.llaveFormulario,
+        resultado: _aumentaIndex
+      );
 
       case 2: return const Text("formulario 3");
 

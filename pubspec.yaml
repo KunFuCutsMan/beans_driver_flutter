@@ -33,6 +33,7 @@ dependencies:
   im_stepper: ^1.0.1
   flutter_form_builder: ^7.8.0
   form_builder_validators: ^8.5.0
+  http: ^0.13.5
 
 
   # The following adds the Cupertino Icons font to your application.
