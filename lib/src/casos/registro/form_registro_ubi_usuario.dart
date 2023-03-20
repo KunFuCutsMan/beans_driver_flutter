@@ -22,18 +22,9 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
 
   // Las listas necesitan al menos un item para generar los form builders correctamente
   // Por lo que les vamos a proveer el mínimo hasta que se actualicen los resultados
-  List<dynamic> listaEstados = const [
-    { 'idestados': '0', 'Nombre': '...' },
-    { 'idestados': '1', 'Nombre': '...' },
-  ];
-  List<dynamic> listaMunicipios = const [
-    { 'idestados': '0', 'idmunicipios': '0', 'Nombre': '...' },
-    { 'idestados': '0', 'idmunicipios': '1', 'Nombre': '...' },
-  ];
-  List<dynamic> listaLocalidades = const [
-    { 'idestados': '0', 'idmunicipios': '0', 'idlocalidades': '0', 'Nombre': '...' },
-    { 'idestados': '0', 'idmunicipios': '0', 'idlocalidades': '1', 'Nombre': '...' },
-  ];
+  List<dynamic> listaEstados = const [ { 'idestados': '0', 'Nombre': '...' } ];
+  List<dynamic> listaMunicipios = const [ { 'idmunicipios': '0', 'Nombre': '...' } ];
+  List<dynamic> listaLocalidades = const [ { 'idlocalidades': '0', 'Nombre': '...' } ];
 
   int _idxEstadoActual = 1;
   int _idxMunicipioActual = 1;
@@ -105,7 +96,10 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
               FormBuilderDropdown<int>(
                 name: 'ubi_estado',
                 decoration: const InputDecoration( label: Text("Estado:"), ),
-                validator: FormBuilderValidators.required(errorText: "Seleccione su estado"),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: "Seleccione su estado"),
+                  FormBuilderValidators.min(1, errorText: "Ingrese un estado válido"),
+                ]),
                 onChanged: (value) => _getMunicipios(e: value),
 
                 items: List.generate( listaEstados.length , (index) {
@@ -121,7 +115,10 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
               FormBuilderDropdown<int>(
                 name: 'ubi_municipio',
                 decoration: const InputDecoration( label: Text("Municipio:") ),
-                validator: FormBuilderValidators.required(errorText: "Seleccione su municipio"),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: "Seleccione su municipio"),
+                  FormBuilderValidators.min(1, errorText: "Ingrese un municipio válido"),
+                ]),
                 onChanged: (value) => _getLocalidades(m: value),
 
                 items: List.generate( listaMunicipios.length , (index) {
@@ -137,7 +134,10 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
               FormBuilderDropdown<int>(
                 name: 'ubi_localidades',
                 decoration: const InputDecoration( label: Text("Localidad:") ),
-                validator: FormBuilderValidators.required(errorText: "Seleccione su localidad"),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(errorText: "Seleccione su localidad"),
+                  FormBuilderValidators.min(1, errorText: "Ingrese una localidad válida"),
+                ]),
 
                 items: List.generate( listaLocalidades.length , (index) {
                   var localidad = listaLocalidades[index];
