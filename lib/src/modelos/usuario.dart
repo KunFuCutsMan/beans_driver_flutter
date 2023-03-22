@@ -25,10 +25,13 @@ class Usuario {
 
   Future< Map<String, dynamic> > insertaEnDB() async {
     
-    con.post(path: 'usuario/nuevo', params: {
-      
+    Map<String, dynamic> res = await con.post(path: 'usuario/nuevo', params: {
+      "correo": "$correo",
+      "contrasena": "$contrasena",
+      "tipoUsuarioID": "$rolUsuarioID",
+      "personaID": "$personaID",
     });
 
-    return {};
+    return res;
   }
 }
