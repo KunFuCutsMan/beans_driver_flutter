@@ -37,9 +37,9 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
     // Vamos a obtener de manera asincrona los verdaderos valores
     () async {
       var resultados = await Future.wait([
-        widget.con.get({'e': '0'}),
-        widget.con.get({'e': '1', 'm': '0'}),
-        widget.con.get({'e': '1', 'm': '1', 'l': '0'})
+        widget.con.get(path: 'ubicaciones', params: {'e': '0'}),
+        widget.con.get(path: 'ubicaciones', params: {'e': '1', 'm': '0'}),
+        widget.con.get(path: 'ubicaciones', params: {'e': '1', 'm': '1', 'l': '0'})
       ]);
 
       // Y cuando terminemos asignemoslos a los dropdowns
@@ -53,8 +53,8 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
 
   void _getMunicipios({ e = 1 }) async {
     var resultados = await Future.wait([
-        widget.con.get({'e': '$e', 'm': '0'}),
-        widget.con.get({'e': '$e', 'm': '1', 'l': '0'})
+        widget.con.get(path: 'ubicaciones', params: {'e': '$e', 'm': '0'}),
+        widget.con.get(path: 'ubicaciones', params: {'e': '$e', 'm': '1', 'l': '0'})
     ]);
 
     setState(() {
@@ -66,11 +66,10 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
   void _getLocalidades({ m = 1 }) async {
     _idxMunicipioActual = m;
 
-    var resultado = await widget.con.get({
-      'e': '$_idxEstadoActual',
-      'm': '$_idxMunicipioActual',
-      'l': '0'
-    });
+    var resultado = await widget.con.get(
+      path: 'ubicaciones',
+      params:{'e': '$_idxEstadoActual', 'm': '$_idxMunicipioActual', 'l': '0'}
+    );
 
     setState(() {
       _idxMunicipioActual = m;
