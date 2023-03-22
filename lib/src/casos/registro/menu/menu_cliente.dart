@@ -1,6 +1,6 @@
+import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente_primera_vista.dart';
+import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente_solicitar_servicio.dart';
 import 'package:flutter/material.dart';
-import 'package:menu_cliente/cliente_primera_vista.dart';
-import 'package:menu_cliente/cliente_solicitar_servicio.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);

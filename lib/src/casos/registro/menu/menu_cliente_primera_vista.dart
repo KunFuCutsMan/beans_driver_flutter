@@ -1,6 +1,4 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 class PrimeraVista extends StatelessWidget {
   const PrimeraVista({Key? key}) : super(key: key);
