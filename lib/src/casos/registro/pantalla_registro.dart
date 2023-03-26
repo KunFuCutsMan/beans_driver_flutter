@@ -10,6 +10,7 @@ import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:im_stepper/stepper.dart';
 
 class PantallaRegistro extends StatefulWidget {
 
@@ -24,6 +25,7 @@ class PantallaRegistro extends StatefulWidget {
 class _PantallaRegistroState extends State<PantallaRegistro> {
 
   int _indexActivo = 0;
+  final int _indexTotal = 4;
   final Usuario usuario = Usuario(usuarioID: 0);
   final Persona persona = Persona(personaID: 0);
 
@@ -91,8 +93,14 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
       ),
 
       child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: ListView( children: [ construyeFormularios() ], ),
+        padding: const EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            construyeFormularios(),
+            stepperCircular(),
+          ],
+        ),
       ),
     );
   }
@@ -157,5 +165,28 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
         },
       );
     }
+  }
+
+  Widget stepperCircular() {
+    return Padding(
+      padding: const EdgeInsets.only( top: 20 ),
+      child: Center( child: DotStepper(
+          tappingEnabled: false,
+          activeStep: _indexActivo,
+          dotRadius: 8,
+          dotCount: _indexTotal,
+          shape: Shape.circle,
+          spacing: Checkbox.width,
+          indicator: Indicator.slide,
+          fixedDotDecoration: FixedDotDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          indicatorDecoration: IndicatorDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            strokeWidth: 0,
+          ),
+        ),
+      ),
+    );
   }
 }
