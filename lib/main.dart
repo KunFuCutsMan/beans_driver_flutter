@@ -1,4 +1,4 @@
-import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
+import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
       ),
       
       home: Scaffold(
-        body: PantallaRegistro()
+        appBar: AppBar( title: const Text("Beans Driver"), ),
+        body: PantallaLogin()
       ),
     );
   }
