@@ -34,4 +34,15 @@ class Usuario {
 
     return res;
   }
+
+  Future< Map<String, dynamic> > enviaCorreoActivacion() async {
+
+    Map<String, dynamic> res = await con.post(path: 'usuario/confirma', params: {
+      "usuarioID": "$usuarioID",
+      "correo": "$correo",
+      "contrasena": "$contrasena",
+    });
+
+    return res;
+  }
 }
