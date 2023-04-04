@@ -45,4 +45,14 @@ class Usuario {
 
     return res;
   }
+
+  Future< Map<String, dynamic> > validaLogin() async {
+    
+    Map<String, dynamic> res = await con.post(path: 'usuario/login', params: {
+      "correo": "$correo",
+      "contrasena": "$contrasena",
+    });
+
+    return res;
+  } 
 }

@@ -29,7 +29,6 @@ class _FormLoginUsuarioState extends State<FormLoginUsuario> {
           skipDisabled: true,
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 "Beans Driver",
