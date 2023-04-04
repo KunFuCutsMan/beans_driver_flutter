@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:beans_driver_flutter/src/casos/login/form_login_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
@@ -51,16 +49,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
 
                 if ( res['_'] ) {
                   // ignore: use_build_context_synchronously
-                  await showDialog(
-                    context: context,
-                    builder: (context) => DialogoAlerta(
-                      titulo: "Sesión iniciada",
-                      contenido: "Su sesión ha sido iniciada",
-                      acciones: {
-                        'OK': () => log("acción tomada")
-                      },
-                      icono: Icons.login
-                  ));
+                  context.go('/menu');
                 }
                 else {
                   // ignore: use_build_context_synchronously
@@ -69,9 +58,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
                     builder: (context) => DialogoAlerta(
                       titulo: "Error en el inicio sesión",
                       contenido: "Hubo un error al iniciar la sesión: ${res['error']}",
-                      acciones: {
-                        'OK': () => log("acción tomada")
-                      },
+                      acciones: { 'OK': () {} },
                       icono: Icons.error_outline
                   ));
                 }

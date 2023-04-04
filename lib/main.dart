@@ -1,4 +1,5 @@
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
+import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/registro',
       builder: (context, state) => PantallaRegistro(),
+    ),
+    GoRoute(
+      path: '/menu',
+      builder: (context, state) => const Menu(),
     ),
   ],
 );
