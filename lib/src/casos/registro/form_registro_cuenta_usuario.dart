@@ -32,7 +32,7 @@ class _FormRegCuentaUsuarioState extends State<FormRegCuentaUsuario> {
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
             children: [
-              const Text("Datos de tu cuenta"),
+              Text("Datos de tu cuenta", style: Theme.of(context).textTheme.headlineMedium),
 
               // Correo electrónico
               FormBuilderTextField(

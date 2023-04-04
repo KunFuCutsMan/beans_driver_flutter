@@ -28,7 +28,7 @@ class _FormRegRolUsuarioState extends State<FormRegRolUsuario> {
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
             children: [
-              const Text("Quiero ser..."),
+              Text("Quiero ser...", style: Theme.of(context).textTheme.headlineMedium),
 
               FormBuilderRadioGroup(
                 name: 'rol_usuario',

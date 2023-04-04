@@ -30,12 +30,8 @@ class _FormLoginUsuarioState extends State<FormLoginUsuario> {
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
             children: [
-              const Text(
-                "Beans Driver",
-                style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text( "Beans Driver",
+                style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
               

@@ -28,7 +28,7 @@ class _FormRegDatosUsuarioState extends State<FormRegDatosUsuario> {
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
             children: [
-              const Text("¿Quién eres?"),
+              Text("¿Quién eres?", style: Theme.of(context).textTheme.headlineMedium),
 
               // Nombre
               FormBuilderTextField(

@@ -126,26 +126,28 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: const [ 0.2, 0.9 ],
-          colors: [
-            Theme.of(context).colorScheme.surface,
-            Theme.of(context).colorScheme.background
-          ],
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [ 0.2, 0.9 ],
+            colors: [
+              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.background
+            ],
+          ),
         ),
-      ),
-
-      child: Padding(
-        padding: const EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
-        child: ListView(
-          children: [
-            construyeFormularios(),
-            stepperCircular(),
-          ],
+    
+        child: Padding(
+          padding: const EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
+          child: ListView(
+            children: [
+              construyeFormularios(),
+              stepperCircular(),
+            ],
+          ),
         ),
       ),
     );

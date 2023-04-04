@@ -89,7 +89,7 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
           onChanged: () => widget.formKey.currentState?.save(),
           child: Column(
             children: [
-              const Text("¿Donde vives?"),
+              Text("¿Donde vives?", style: Theme.of(context).textTheme.headlineMedium),
 
               // Estados
               FormBuilderDropdown<int>(
