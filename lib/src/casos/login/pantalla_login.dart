@@ -4,6 +4,7 @@ import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PantallaLogin extends StatefulWidget {
   
@@ -47,11 +48,19 @@ class _PantallaLoginState extends State<PantallaLogin> {
 
                 Map<String, dynamic> res = await usu.validaLogin();
 
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                
                 if ( res['_'] ) {
+                  // Ahora la aplicación sabe que estás logeado
+                  await prefs.setBool("usuarioTieneLogin", true);
+
                   // ignore: use_build_context_synchronously
                   context.go('/menu');
                 }
                 else {
+                  // Ahora la aplicación sabe que no estás logeado
+                  await prefs.setBool("usuarioTieneLogin", false);
+
                   // ignore: use_build_context_synchronously
                   await showDialog(
                     context: context,
