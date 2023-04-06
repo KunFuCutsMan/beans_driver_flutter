@@ -1,26 +1,18 @@
 import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente_primera_vista.dart';
 import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente_solicitar_servicio.dart';
+import 'package:beans_driver_flutter/src/comun/drawer_usuario.dart';
 import 'package:flutter/material.dart';
 
-class Menu extends StatelessWidget {
+
+
+class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Inicio(),
-    );
-  }
+  State<Menu> createState() => _MenuState();
 }
 
-class Inicio extends StatefulWidget {
-  const Inicio({Key? key}) : super(key: key);
-
-  @override
-  State<Inicio> createState() => _InicioState();
-}
-
-class _InicioState extends State<Inicio> {
+class _MenuState extends State<Menu> {
   int _currenIndex = 0;
   final List<Widget> children = [
     const PrimeraVista(),
@@ -34,6 +26,8 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar( title: const Text("Beans Driver"), ),
+      drawer: const DrawerUsuario(),
       body: children[_currenIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 16.0,

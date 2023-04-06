@@ -5,21 +5,16 @@ class PrimeraVista extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text("Beans Driver")),
+    return ListView(
+      physics: const BouncingScrollPhysics(
+        decelerationRate: ScrollDecelerationRate.fast
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(
-          decelerationRate: ScrollDecelerationRate.fast
-        ),
-        // ignore: prefer_const_literals_to_create_immutables
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 50, right: 50),
-          )
-        ],
-      ),
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 50, right: 50),
+        )
+      ],
     );
   }
 }
