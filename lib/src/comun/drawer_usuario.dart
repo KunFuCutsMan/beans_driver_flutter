@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerUsuario extends StatefulWidget {
   const DrawerUsuario({super.key});
@@ -33,10 +35,22 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
           const Divider( thickness: 4, ),
           ListTile(
             title: const Text("Cerrar sesión"),
-            onTap: () {},
+            onTap: _cierraSesion,
           )
         ],
       ),
     );
+  }
+
+  void _cierraSesion() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await Future.wait([
+      prefs.setBool("usuarioTieneLogin", false),
+      prefs.setString("usuarioCorreo", ""),
+      prefs.setString("usuarioContra", "")
+    ]);
+
+    // ignore: use_build_context_synchronously
+    return context.go('/login'); 
   }
 }

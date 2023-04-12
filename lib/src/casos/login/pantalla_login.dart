@@ -52,14 +52,22 @@ class _PantallaLoginState extends State<PantallaLogin> {
                 
                 if ( res['_'] ) {
                   // Ahora la aplicación sabe que estás logeado
-                  await prefs.setBool("usuarioTieneLogin", true);
+                  await Future.wait([
+                    prefs.setBool("usuarioTieneLogin", true),
+                    prefs.setString("usuarioCorreo", "${usu.correo}"),
+                    prefs.setString("usuarioContra", "${usu.contrasena}")
+                  ]);
 
                   // ignore: use_build_context_synchronously
-                  context.go('/menu');
+                  context.go('/home');
                 }
                 else {
                   // Ahora la aplicación sabe que no estás logeado
-                  await prefs.setBool("usuarioTieneLogin", false);
+                  await Future.wait([
+                    prefs.setBool("usuarioTieneLogin", false),
+                    prefs.setString("usuarioCorreo", ""),
+                    prefs.setString("usuarioContra", "")
+                  ]);
 
                   // ignore: use_build_context_synchronously
                   await showDialog(

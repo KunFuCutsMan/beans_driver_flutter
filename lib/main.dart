@@ -1,6 +1,7 @@
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
 import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
+import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,24 +15,40 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/login',
   routes: [
     
+    GoRoute(
+      path: '/',
+      // ¿Está logeado el usuario?
+      redirect: (context, state) async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        Usuario usu = Usuario(usuarioID: 0);
+        usu.correo = prefs.getString("usuarioCorreo") ?? "";
+        usu.contrasena = prefs.getString("usuarioContra") ?? "";
+        bool? usuTieneLogin = prefs.getBool("usuarioTieneLogin") ?? false;
+
+        Map<String, dynamic> res = await usu.validaLogin();        
+
+        // Si se pudo hacer el login
+        if ( res['stat'] == 200 && usuTieneLogin && res['_'] == true ) {
+          // Ve al menu principal
+          return '/home';
+        } else {
+          // En cambio, borra los datos de login y regresa a la pantalla login
+          await Future.wait([
+            prefs.setBool("usuarioTieneLogin", false),
+            prefs.setString("usuarioCorreo", ""),
+            prefs.setString("usuarioContra", "")
+          ]);
+          return '/login';
+        }
+      },
+    ),
     GoRoute(
       path: '/login',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => PantallaLogin(),
-      
-      // ¿Está logeado el usuario?
-      redirect: (context, state) async {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        if ( prefs.getBool("usuarioTieneLogin") ?? false ) {
-          return '/home';
-        } else {
-          await prefs.setBool("usuarioTieneLogin", false);
-          return null;
-        }
-      },
     ),
     
     GoRoute(
