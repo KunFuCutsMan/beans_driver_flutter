@@ -9,29 +9,72 @@ void main() {
   runApp(const MyApp());
 }
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
 final _router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   initialLocation: '/login',
   routes: [
+    
     GoRoute(
       path: '/login',
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => PantallaLogin(),
+      
+      // ¿Está logeado el usuario?
       redirect: (context, state) async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         if ( prefs.getBool("usuarioTieneLogin") ?? false ) {
-          return "/menu";
+          return '/home';
         } else {
           await prefs.setBool("usuarioTieneLogin", false);
           return null;
         }
       },
     ),
+    
     GoRoute(
       path: '/registro',
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) => PantallaRegistro(),
     ),
-    GoRoute(
-      path: '/menu',
-      builder: (context, state) => const Menu(),
+    
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      pageBuilder: (context, state, child) => NoTransitionPage(
+        child: Menu(cuerpo: child),
+      ),
+      routes: <RouteBase>[
+        
+        // Actua como un router normal, pero ahora sirver para el bottomNavigationBar
+        GoRoute(
+          path: '/servicio',
+          parentNavigatorKey: _shellNavigatorKey,
+          builder: (context, state) {
+            // Reemplaza un body aquí
+            return const Center( child: Text("Servicio") );
+          },
+        ),
+        
+        GoRoute(
+          path: '/home',
+          parentNavigatorKey: _shellNavigatorKey,
+          builder: (context, state) {
+            // Reemplaza un body aquí
+            return const Center( child: Text("Home") );
+          },
+        ),
+        
+        GoRoute(
+          path: '/cuenta',
+          parentNavigatorKey: _shellNavigatorKey,
+          builder: (context, state) {
+            // Reemplaza un body aquí
+            return const Center( child: Text("Cuenta") );
+          },
+        ),
+      ],
     ),
   ],
 );
