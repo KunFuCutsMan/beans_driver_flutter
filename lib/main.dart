@@ -1,5 +1,5 @@
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
-import 'package:beans_driver_flutter/src/casos/registro/menu/menu_cliente.dart';
+import 'package:beans_driver_flutter/src/casos/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
