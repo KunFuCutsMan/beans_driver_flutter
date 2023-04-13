@@ -41,45 +41,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
           children: [
             FormLoginUsuario(
               formKey: widget.llaveFormulario,
-              resultado: () async {
-                Usuario usu = Usuario(usuarioID: 0);
-                usu.correo = widget.llaveFormulario.currentState?.value['correo'] ?? "";
-                usu.contrasena = widget.llaveFormulario.currentState?.value['contrasena'] ?? "";
-
-                Map<String, dynamic> res = await usu.validaLogin();
-
-                final SharedPreferences prefs = await SharedPreferences.getInstance();
-                
-                if ( res['_'] ) {
-                  // Ahora la aplicación sabe que estás logeado
-                  await Future.wait([
-                    prefs.setBool("usuarioTieneLogin", true),
-                    prefs.setString("usuarioCorreo", "${usu.correo}"),
-                    prefs.setString("usuarioContra", "${usu.contrasena}")
-                  ]);
-
-                  // ignore: use_build_context_synchronously
-                  context.go('/home');
-                }
-                else {
-                  // Ahora la aplicación sabe que no estás logeado
-                  await Future.wait([
-                    prefs.setBool("usuarioTieneLogin", false),
-                    prefs.setString("usuarioCorreo", ""),
-                    prefs.setString("usuarioContra", "")
-                  ]);
-
-                  // ignore: use_build_context_synchronously
-                  await showDialog(
-                    context: context,
-                    builder: (context) => DialogoAlerta(
-                      titulo: "Error en el inicio sesión",
-                      contenido: "Hubo un error al iniciar la sesión: ${res['error']}",
-                      acciones: { 'OK': () {} },
-                      icono: Icons.error_outline
-                  ));
-                }
-              },
+              resultado: () => validaLogin( resultado: () => context.go('/home') ),
             ),
     
             Column(
@@ -96,5 +58,46 @@ class _PantallaLoginState extends State<PantallaLogin> {
         ),
       ),
     );
+  }
+
+  void validaLogin({ required void Function() resultado }) async {
+    Usuario usu = Usuario(usuarioID: 0);
+    usu.correo = widget.llaveFormulario.currentState?.value['correo'] ?? "";
+    usu.contrasena = widget.llaveFormulario.currentState?.value['contrasena'] ?? "";
+
+    Map<String, dynamic> res = await usu.validaLogin();
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    if ( res['_']['loginValido'] ) {
+      // Ahora la aplicación sabe que estás logeado
+      await Future.wait([
+        prefs.setBool("usuarioTieneLogin", true),
+        prefs.setString("usuarioCorreo", "${usu.correo}"),
+        prefs.setString("usuarioContra", "${usu.contrasena}"),
+        prefs.setInt("usuarioID", int.parse(res['_']['usuarioID']) ),
+      ]);
+
+      resultado.call();
+    }
+    else {
+      // Ahora la aplicación sabe que no estás logeado
+      await Future.wait([
+        prefs.setBool("usuarioTieneLogin", false),
+        prefs.setString("usuarioCorreo", ""),
+        prefs.setString("usuarioContra", ""),
+        prefs.setInt("usuarioID", 0),
+      ]);
+
+      // ignore: use_build_context_synchronously
+      await showDialog(
+        context: context,
+        builder: (context) => DialogoAlerta(
+          titulo: "Error en el inicio sesión",
+          contenido: "Hubo un error al iniciar la sesión: ${res['error']}",
+          acciones: { 'OK': () {} },
+          icono: Icons.error_outline
+      ));
+    }
   }
 }

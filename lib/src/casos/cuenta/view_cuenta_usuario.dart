@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:avatars/avatars.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_persona.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_ubicacion.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tab_container/tab_container.dart';
 
 class ViewCuentaUsuario extends StatefulWidget {
@@ -20,7 +23,11 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
       children: [
         Center( child: Avatar(
           name: 'Usuario',
-          shape: AvatarShape.circle(100)
+          shape: AvatarShape.circle(100),
+          onTap: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            log( prefs.getInt("usuarioID").toString() );
+          },
         ), ),
 
         SizedBox(

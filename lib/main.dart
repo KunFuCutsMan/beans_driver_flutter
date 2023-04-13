@@ -32,7 +32,11 @@ final _router = GoRouter(
         Map<String, dynamic> res = await usu.validaLogin();        
 
         // Si se pudo hacer el login
-        if ( res['stat'] == 200 && usuTieneLogin && res['_'] == true ) {
+        if ( res['stat'] == 200 && usuTieneLogin && res['_']['loginValido'] == true ) {
+
+          // Establece la ID del usuario
+          await prefs.setInt("usuarioID", int.parse(res['_']['usuarioID']));
+
           // Ve al menu principal
           return '/home';
         } else {
@@ -40,7 +44,8 @@ final _router = GoRouter(
           await Future.wait([
             prefs.setBool("usuarioTieneLogin", false),
             prefs.setString("usuarioCorreo", ""),
-            prefs.setString("usuarioContra", "")
+            prefs.setString("usuarioContra", ""),
+            prefs.setInt("usuarioID", 0 ),
           ]);
           return '/login';
         }
