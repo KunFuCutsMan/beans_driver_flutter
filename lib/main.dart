@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/casos/cuenta/view_cuenta_usuario.dart';
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
 import 'package:beans_driver_flutter/src/casos/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
@@ -87,8 +88,7 @@ final _router = GoRouter(
           path: '/cuenta',
           parentNavigatorKey: _shellNavigatorKey,
           builder: (context, state) {
-            // Reemplaza un body aquí
-            return const Center( child: Text("Cuenta") );
+            return const ViewCuentaUsuario();
           },
         ),
       ],
