@@ -55,4 +55,22 @@ class Usuario {
 
     return res;
   } 
+
+  Future<void> obtenUsuarioEnDB() async {
+    Map<String, dynamic> res = await con.get(path: 'usuario/datos', params: {
+      "usuarioID": "$usuarioID",
+    });
+
+    if ( res['stat'] != 200 ) {
+      return;
+    }
+
+    correo = res['_']['correo'];
+    contrasena = res['_']['contrasena'];
+    fechaRegistro = res['_']['fechaRegistro'];
+    fechaSesion = res['_']['fechaSesion'];
+    status = int.parse( res['_']['status'] );
+    rolUsuarioID = int.parse( res['_']['rolUsuarioID'] );
+    personaID = int.parse( res['_']['personaID'] );
+  }
 }

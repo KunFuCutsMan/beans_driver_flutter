@@ -19,8 +19,8 @@ class ConectaSQL {
 
     var json = jsonDecode( respuesta.body );
 
-    log("Enviado existosamente");
-    return json['_'];
+    log("Enviado existosamente: ${ respuesta.body }");
+    return json;
   }
 
   Future<dynamic> post({required String path ,required Map<String, String> params}) async {

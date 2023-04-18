@@ -46,5 +46,24 @@ class Persona {
     return res;
   }
 
+  Future<void> obtenPersonaEnDB() async {
+    Map<String, dynamic> res = await con.get(path: 'persona/datos', params: {
+      "personaID": "$personaID",
+    });
+
+    if ( res['stat'] != 200 ) {
+      return;
+    }
+
+    nombre = res['_']['nombre'];
+    apePrimero = res['_']['apellido_1'];
+    apeSegundo = res['_']['apellido_2'];
+    genero = res['_']['genero'];
+    numTel = res['_']['telefono'];
+    estadoID = int.parse( res['_']['estadoID'] );
+    municipioID = int.parse( res['_']['municipioID'] );
+    localidadID = int.parse( res['_']['localidadID'] );
+  }
+
 
 }
