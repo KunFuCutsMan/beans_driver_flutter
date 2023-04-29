@@ -65,5 +65,22 @@ class Persona {
     localidadID = int.parse( res['_']['localidadID'] );
   }
 
+  Future< Map<String, dynamic> > editaEnDB() async {
+    
+    Map<String, dynamic> res = await con.post(path: 'persona/edita', params: {
+      "personaID": "$personaID",
+      "nombre": "$nombre",
+      "apePrimero": "$apePrimero",
+      "apeSegundo": "$apeSegundo",
+      "genero": "$genero",
+      "numTel": "$numTel",
+      "estadoID": "$estadoID",
+      "municipioID": "$municipioID",
+      "localidadID": "$localidadID",
+    });
+
+    return res;
+  }
+
 
 }
