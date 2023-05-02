@@ -82,5 +82,12 @@ class Persona {
     return res;
   }
 
+  @override
+  String toString() {
+    return "Persona: personaID: $personaID, nombre: $nombre, apePrimero: $apePrimero,"
+    " apeSegundo: $apeSegundo, genero: $genero, numTel: $numTel,"
+    " estadoID: $estadoID, municipioID: $municipioID, localidadID: $localidadID";
+  }
+
 
 }

@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class TabDatosUbicacion extends StatefulWidget {
   
@@ -31,14 +33,30 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
 
   // Método de validación
   void _validaFormulario( GlobalKey<FormBuilderState> formKey ) async {
-    formKey.currentState?.save();
+    
+    log("Validando...");
 
-    log("ESTADO: $_idxEstadoActual");
-    log("MUNICIPIO: $_idxMunicipioActual");
-    log("LOCALIDAD: $_idxLocalidadActual");
-    log("VALOR ESTADO: ${formKey.currentState?.value['estadoID']}");
-    log("VALOR MUNIC: ${formKey.currentState?.value['municipioID']}");
-    log("VALOR LOCAL: ${formKey.currentState?.value['localidadID']}");
+    if (formKey.currentState?.saveAndValidate() ?? false) {
+      log("Validado");
+
+      widget.per.estadoID = formKey.currentState?.value['estadoID'];
+      widget.per.municipioID = formKey.currentState?.value['municipioID'];
+      widget.per.localidadID = formKey.currentState?.value['localidadID'];
+
+      log( widget.per.toString() );
+
+      Map<String, dynamic> res = await widget.per.editaEnDB();
+
+      if ( res['stat'] == 200 && res['_'] == true ) {
+        return DialogoAlerta.avisaInfo( formKey.currentContext! , "Se editaron sus datos con éxito");
+      } else {
+        return DialogoAlerta.avisaInfo( formKey.currentContext!, "Hubo un error al editar sus datos: ${res['error']}");
+      }
+    }
+    else {
+      log("No se pudo");
+      return DialogoAlerta.avisaInfo(context, 'Hubo un error al editar la persona: Datos incorrectos o nulos');
+    }
   }
 
   @override
@@ -127,6 +145,11 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
                 child: Text( e['Nombre'] ),
               )
             ).toList(),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(errorText: "Ingrese un estado"),
+              FormBuilderValidators.min(1, errorText: "Ingrese un estado válido"),
+            ]),
+
             onChanged: (value) => _getMunicipios( e: value ),
             initialValue: _idxEstadoActual,
           ),
@@ -144,6 +167,11 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
                 child: Text( e['Nombre'] )
               )
             ).toList(),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(errorText: "Ingrese un municipio"),
+              FormBuilderValidators.min(1, errorText: "Ingrese un municipio válido"),
+            ]),
+
             onChanged: (value) => _getLocalidades( m: value ),
             initialValue: _idxMunicipioActual,
           ),
@@ -161,6 +189,11 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
                 child: Text( e['Nombre'] ),
               )
             ).toList(),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(errorText: "Ingrese una localidad"),
+              FormBuilderValidators.min(1, errorText: "Ingrese una localidad válida"),
+            ]),
+            
             initialValue: _idxLocalidadActual,
           ),
 

@@ -16,6 +16,18 @@ class DialogoAlerta extends StatelessWidget {
     required this.icono
   });
 
+  static void avisaInfo( BuildContext context, String mensaje ) async {
+    return await showDialog(
+      context: context,
+      builder: (context) => DialogoAlerta(
+        titulo: "Atención",
+        contenido: mensaje,
+        acciones: { 'OK': () {} },
+        icono: Icons.info
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
