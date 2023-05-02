@@ -32,7 +32,7 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
   final ConectaSQL con = ConectaSQL();
 
   // Método de validación
-  void _validaFormulario( GlobalKey<FormBuilderState> formKey ) async {
+  void _validaFormulario() async {
     
     log("Validando...");
 
@@ -42,8 +42,6 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
       widget.per.estadoID = formKey.currentState?.value['estadoID'];
       widget.per.municipioID = formKey.currentState?.value['municipioID'];
       widget.per.localidadID = formKey.currentState?.value['localidadID'];
-
-      log( widget.per.toString() );
 
       Map<String, dynamic> res = await widget.per.editaEnDB();
 
@@ -55,7 +53,7 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
     }
     else {
       log("No se pudo");
-      return DialogoAlerta.avisaInfo(context, 'Hubo un error al editar la persona: Datos incorrectos o nulos');
+      return DialogoAlerta.avisaInfo( formKey.currentContext!, 'Hubo un error al editar la persona: Datos incorrectos o nulos');
     }
   }
 
@@ -198,7 +196,7 @@ class _TabDatosUbicacionState extends State<TabDatosUbicacion> {
           ),
 
           ElevatedButton(
-            onPressed: () => _validaFormulario( formKey ),
+            onPressed: _validaFormulario,
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.secondary
             ),

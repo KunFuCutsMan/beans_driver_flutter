@@ -20,16 +20,29 @@ class _TabDatosPersonaState extends State<TabDatosPersona> {
 
   late GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  void avisaError(BuildContext context, String message) async {
-    return await showDialog(
-      context: context,
-      builder: (context) => DialogoAlerta(
-        titulo: "Atención",
-        contenido: message,
-        acciones: { 'OK': (){} },
-        icono: Icons.info
-      ),
-    );
+  void _validaFormulario() async {
+
+    if ( formKey.currentState?.saveAndValidate() ?? false ) {
+      log("validado");
+
+      widget.per.nombre = formKey.currentState?.value['nombre'];
+      widget.per.apePrimero = formKey.currentState?.value['apellido_1'];
+      widget.per.apeSegundo = formKey.currentState?.value['apellido_2'];
+      widget.per.genero = formKey.currentState?.value['genero'];
+      widget.per.numTel = formKey.currentState?.value['num_tel'];
+      
+      Map<String, dynamic> res = await widget.per.editaEnDB();
+      
+      if ( res['stat'] == 200 && res['_'] == true ) {
+        return DialogoAlerta.avisaInfo( formKey.currentContext!, 'Se editó la persona exitosamente.');
+      } else {
+        return DialogoAlerta.avisaInfo( formKey.currentContext!, 'Hubo un error al editar la persona: ${res['error']}');
+      }
+    }
+    else {
+      log("no se pudo");
+      return DialogoAlerta.avisaInfo( formKey.currentContext!, 'Hubo un error al editar la persona: Datos incorrectos o nulos');
+    }
   }
 
   @override
@@ -125,34 +138,7 @@ class _TabDatosPersonaState extends State<TabDatosPersona> {
           ),
 
           ElevatedButton(
-            onPressed: () async {
-            log("validando...");
-
-            if ( formKey.currentState?.saveAndValidate() ?? false ) {
-              log("validado");
-
-              widget.per.nombre = formKey.currentState?.value['nombre'];
-              widget.per.apePrimero = formKey.currentState?.value['apellido_1'];
-              widget.per.apeSegundo = formKey.currentState?.value['apellido_2'];
-              widget.per.genero = formKey.currentState?.value['genero'];
-              widget.per.numTel = formKey.currentState?.value['num_tel'];
-              
-              Map<String, dynamic> res = await widget.per.editaEnDB();
-              
-              if ( res['stat'] == 200 && res['_'] == true ) {
-                // ignore: use_build_context_synchronously
-                return avisaError(context, 'Se editó la persona exitosamente.');
-              } else {
-                // ignore: use_build_context_synchronously
-                return avisaError(context, 'Hubo un error al editar la persona: ${res['error']}');
-              }
-            }
-            else {
-              log("no se pudo");
-              // ignore: use_build_context_synchronously
-              return avisaError(context, 'Hubo un error al editar la persona: Datos incorrectos o nulos');
-            }
-          },
+            onPressed: _validaFormulario,
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.secondary
             ),
