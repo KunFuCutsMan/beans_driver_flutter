@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:beans_driver_flutter/src/comun/dialogo_login.dart';
 import 'package:flutter/material.dart';
 
 class TabDatosUsuario extends StatefulWidget {
@@ -14,9 +17,13 @@ class _TabDatosUsuarioState extends State<TabDatosUsuario> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          Text("Datos de usuario"),
-          Text( "Lorem ipsum"),
+        children: [
+          const Text("Datos de usuario"),
+          const Text( "Lorem ipsum"),
+          ElevatedButton(
+            onPressed: () => DialogoLogin.avisaLogin(context, () => log("Éxito")),
+            child: const Text("validar"),
+          ),
         ],
       ),
     );
