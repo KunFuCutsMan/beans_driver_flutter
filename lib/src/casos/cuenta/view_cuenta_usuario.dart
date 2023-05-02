@@ -69,7 +69,7 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
               color: Theme.of(context).colorScheme.primary,
               children: [
                 TabDatosPersona( per: per, ),
-                const TabDatosUbicacion(),
+                TabDatosUbicacion( per: per ),
                 const TabDatosUsuario(),
               ],
             ),

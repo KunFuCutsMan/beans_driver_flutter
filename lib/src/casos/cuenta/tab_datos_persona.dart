@@ -45,9 +45,9 @@ class _TabDatosPersonaState extends State<TabDatosPersona> {
         'num_tel': widget.per.numTel ?? '',
       },
       
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 15,
         children: [
           FormBuilderTextField(
             name: 'nombre',
