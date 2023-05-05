@@ -28,6 +28,7 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       usu = Usuario(usuarioID: prefs.getInt("usuarioID")! );
       await usu.obtenUsuarioEnDB();
+      usu.contrasena = prefs.getString("usuarioContra");
 
       per = Persona(personaID: usu.personaID!);
       await per.obtenPersonaEnDB();
@@ -70,7 +71,7 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
               children: [
                 TabDatosPersona( per: per, ),
                 TabDatosUbicacion( per: per ),
-                const TabDatosUsuario(),
+                TabDatosUsuario( usu: usu ),
               ],
             ),
           ),

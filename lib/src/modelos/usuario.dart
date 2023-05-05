@@ -73,4 +73,20 @@ class Usuario {
     rolUsuarioID = int.parse( res['_']['rolUsuarioID'] );
     personaID = int.parse( res['_']['personaID'] );
   }
+
+  Future< Map<String, dynamic> > editaUsuarioEnDB() async {
+    Map<String, dynamic> res = await con.post(path: 'usuario/edita', params: {
+      "usuarioID": "$usuarioID",
+      "correo": "$correo",
+      "contrasena": "$contrasena",
+    });
+
+    return res;
+  }
+
+  @override
+  String toString() {
+    return "Usuario: usuarioID: $usuarioID, correo: $correo, contrasena: $contrasena,"
+    " rolUsuarioID: $rolUsuarioID, status: $status, personaID: $personaID";
+  }
 }
