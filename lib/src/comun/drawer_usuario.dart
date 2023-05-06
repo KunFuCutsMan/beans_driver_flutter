@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Theme.of(context).colorScheme.background,
       child: ListView(
         children: [
           DrawerHeader(
@@ -27,16 +29,41 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
               ),
             ),
           ),
-          ListTile(
-            title: const Text("Acerca de"),
-            onTap: () {},
-          ),
 
           const Divider( thickness: 4, ),
           ListTile(
             title: const Text("Cerrar sesión"),
             onTap: _cierraSesion,
-          )
+          ),
+
+          const Divider( thickness: 4, ),
+          SwitchListTile(
+            value: Theme.of(context).brightness == Brightness.dark,
+            title: const Text("Tema Oscuro"),
+            onChanged: (bool isOscuro) {
+              if ( isOscuro ) {
+                BeansDriver.of(context).changeTheme( ThemeMode.dark );
+              }
+              else {
+                BeansDriver.of(context).changeTheme( ThemeMode.light );
+              }
+            },
+          ),
+          
+          const Divider( thickness: 4, ),
+          ListTile(
+            title: const Text("Compartir"),
+            leading: Icon( Icons.share, color: Theme.of(context).colorScheme.onBackground, ),
+            onTap: () {},
+          ),
+          
+          const Divider( thickness: 4, ),
+          ListTile(
+            title: const Text("Ayuda"),
+            leading: Icon( Icons.question_mark, color: Theme.of(context).colorScheme.onBackground ),
+            onTap: () {},
+          ),
+
         ],
       ),
     );
@@ -47,7 +74,8 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
     await Future.wait([
       prefs.setBool("usuarioTieneLogin", false),
       prefs.setString("usuarioCorreo", ""),
-      prefs.setString("usuarioContra", "")
+      prefs.setString("usuarioContra", ""),
+      prefs.setInt("usuarioID", 0),
     ]);
 
     // ignore: use_build_context_synchronously

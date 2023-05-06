@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/comun/app_barra.dart';
 import 'package:beans_driver_flutter/src/comun/drawer_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,13 +20,13 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( title: const Text("Beans Driver"), ),
+      appBar: const AppBarra(),
       drawer: const DrawerUsuario(),
       body: widget.cuerpo,
       
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 16.0,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Theme.of(context).colorScheme.onBackground,
 
         currentIndex: _calculaIndexActual( context ),
         onTap: _onTap,

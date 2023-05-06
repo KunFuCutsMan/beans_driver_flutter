@@ -44,9 +44,9 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
 
       // Y cuando terminemos asignemoslos a los dropdowns
       setState(() {
-        listaEstados = resultados[0];
-        listaMunicipios = resultados[1];
-        listaLocalidades = resultados[2];
+        listaEstados = resultados[0]['_'];
+        listaMunicipios = resultados[1]['_'];
+        listaLocalidades = resultados[2]['_'];
       });
     } ();
   }
@@ -59,7 +59,8 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
 
     setState(() {
       _idxEstadoActual = e;
-      listaMunicipios = resultados[0];
+      listaMunicipios = resultados[0]['_'];
+      listaLocalidades = resultados[1]['_'];
     });
   }
 
@@ -73,7 +74,7 @@ class _FormRegUbicacionUsuarioState extends State<FormRegUbicacionUsuario> {
 
     setState(() {
       _idxMunicipioActual = m;
-      listaLocalidades = resultado;
+      listaLocalidades = resultado['_'];
     });
   }
 

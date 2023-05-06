@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const BeansDriver());
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -101,8 +101,24 @@ final _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class BeansDriver extends StatefulWidget {
+  const BeansDriver({super.key});
+
+  @override
+  State<BeansDriver> createState() => _BeansDriverState();
+
+  // ignore: library_private_types_in_public_api
+  static _BeansDriverState of(BuildContext context) =>
+    context.findAncestorStateOfType<_BeansDriverState>()!;
+}
+
+class _BeansDriverState extends State<BeansDriver> {
+
+  ThemeMode _tema = ThemeMode.system;
+
+  void changeTheme(ThemeMode themeMode) {
+    setState(() { _tema = themeMode; });
+  }
 
   // This widget is the root of your application.
   @override
@@ -126,6 +142,24 @@ class MyApp extends StatelessWidget {
           onSurface: Colors.black,
         ),
       ),
+
+      darkTheme: ThemeData(
+        colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color(0xFF00CC66),
+          onPrimary: Colors.white,
+          secondary: Color(0xFFCED45E),
+          onSecondary: Colors.black,
+          error: Colors.red,
+          onError: Colors.black,
+          background: Colors.black,
+          onBackground: Colors.white,
+          surface: Color(0xFFFFFFC0),
+          onSurface: Colors.black,
+        ),
+      ),
+
+      themeMode: _tema,
 
       routerConfig: _router,
     );

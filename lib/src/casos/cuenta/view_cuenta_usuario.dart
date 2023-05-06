@@ -57,10 +57,11 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
               childPadding: const EdgeInsets.all(20),
               tabExtent: 60,
               selectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               unselectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onBackground
               ),
               tabs: const [
                 'Datos\npersonales',
