@@ -2,7 +2,7 @@ import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 
 class Persona {
   
-  ConectaSQL con = ConectaSQL();
+  final ConectaSQL _con = ConectaSQL();
 
   int personaID = 0;
 
@@ -32,7 +32,7 @@ class Persona {
 
   Future< Map<String, dynamic> > insertaEnDB() async {
     
-    Map<String, dynamic> res = await con.post(path: 'persona/nuevo', params: {
+    Map<String, dynamic> res = await _con.post(path: 'persona/nuevo', params: {
       "nombre": "$nombre",
       "apePrimero": "$apePrimero",
       "apeSegundo": "$apeSegundo",
@@ -47,7 +47,7 @@ class Persona {
   }
 
   Future<void> obtenPersonaEnDB() async {
-    Map<String, dynamic> res = await con.get(path: 'persona/datos', params: {
+    Map<String, dynamic> res = await _con.get(path: 'persona/datos', params: {
       "personaID": "$personaID",
     });
 
@@ -67,7 +67,7 @@ class Persona {
 
   Future< Map<String, dynamic> > editaEnDB() async {
     
-    Map<String, dynamic> res = await con.post(path: 'persona/edita', params: {
+    Map<String, dynamic> res = await _con.post(path: 'persona/edita', params: {
       "personaID": "$personaID",
       "nombre": "$nombre",
       "apePrimero": "$apePrimero",

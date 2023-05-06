@@ -2,7 +2,7 @@ import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 
 class Usuario {
 
-  ConectaSQL con = ConectaSQL();
+  final ConectaSQL _con = ConectaSQL();
 
   // Datos de usuario
   int usuarioID = 0;
@@ -25,7 +25,7 @@ class Usuario {
 
   Future< Map<String, dynamic> > insertaEnDB() async {
     
-    Map<String, dynamic> res = await con.post(path: 'usuario/nuevo', params: {
+    Map<String, dynamic> res = await _con.post(path: 'usuario/nuevo', params: {
       "correo": "$correo",
       "contrasena": "$contrasena",
       "tipoUsuarioID": "$rolUsuarioID",
@@ -37,7 +37,7 @@ class Usuario {
 
   Future< Map<String, dynamic> > enviaCorreoActivacion() async {
 
-    Map<String, dynamic> res = await con.post(path: 'usuario/confirma', params: {
+    Map<String, dynamic> res = await _con.post(path: 'usuario/confirma', params: {
       "usuarioID": "$usuarioID",
       "correo": "$correo",
       "contrasena": "$contrasena",
@@ -48,7 +48,7 @@ class Usuario {
 
   Future< Map<String, dynamic> > validaLogin() async {
     
-    Map<String, dynamic> res = await con.post(path: 'usuario/login', params: {
+    Map<String, dynamic> res = await _con.post(path: 'usuario/login', params: {
       "correo": "$correo",
       "contrasena": "$contrasena",
     });
@@ -57,7 +57,7 @@ class Usuario {
   } 
 
   Future<void> obtenUsuarioEnDB() async {
-    Map<String, dynamic> res = await con.get(path: 'usuario/datos', params: {
+    Map<String, dynamic> res = await _con.get(path: 'usuario/datos', params: {
       "usuarioID": "$usuarioID",
     });
 
@@ -75,7 +75,7 @@ class Usuario {
   }
 
   Future< Map<String, dynamic> > editaUsuarioEnDB() async {
-    Map<String, dynamic> res = await con.post(path: 'usuario/edita', params: {
+    Map<String, dynamic> res = await _con.post(path: 'usuario/edita', params: {
       "usuarioID": "$usuarioID",
       "correo": "$correo",
       "contrasena": "$contrasena",
