@@ -1,8 +1,12 @@
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
+import 'package:flutter/material.dart';
 
 class Usuario {
 
+  @protected
   final ConectaSQL _con = ConectaSQL();
+
+  @protected ConectaSQL get con => _con;
 
   // Datos de usuario
   int usuarioID = 0;
