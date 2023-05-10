@@ -17,6 +17,7 @@ class DialogoLogin extends StatelessWidget {
     return await showDialog(
       context: context,
       builder: (context) => DialogoLogin( onSuccess: onSuccess ),
+      barrierDismissible: false,
     );
   }
 

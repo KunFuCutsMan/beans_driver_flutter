@@ -15,7 +15,7 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.background,
-      child: ListView(
+      child: Column(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
@@ -30,39 +30,55 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
             ),
           ),
 
-          const Divider( thickness: 4, ),
+          const Divider( thickness: 2, ),
           ListTile(
             title: const Text("Cerrar sesión"),
+            leading: Icon(Icons.logout, color: Theme.of(context).colorScheme.onBackground,),
             onTap: _cierraSesion,
           ),
 
-          const Divider( thickness: 4, ),
+          const Divider( thickness: 2, ),
           SwitchListTile(
             value: Theme.of(context).brightness == Brightness.dark,
             title: const Text("Tema Oscuro"),
-            onChanged: (bool isOscuro) {
-              if ( isOscuro ) {
-                BeansDriver.of(context).changeTheme( ThemeMode.dark );
-              }
-              else {
-                BeansDriver.of(context).changeTheme( ThemeMode.light );
-              }
-            },
+            onChanged: _cambiaTema,
           ),
           
-          const Divider( thickness: 4, ),
+          const Divider( thickness: 2, ),
+          const SizedBox( height: 40, ),
+
+          const Divider( thickness: 2, ),
           ListTile(
             title: const Text("Compartir"),
             leading: Icon( Icons.share, color: Theme.of(context).colorScheme.onBackground, ),
-            onTap: () {},
+            onTap: _comparteApp,
+          ),
+
+          const Divider( thickness: 2, ),
+          ListTile(
+            title: const Text("Dev Notes"),
+            leading: Icon( Icons.logo_dev, color: Theme.of(context).colorScheme.onBackground, ),
+            onTap: _muestraNotas,
           ),
           
-          const Divider( thickness: 4, ),
+          const Divider( thickness: 2, ),
           ListTile(
             title: const Text("Ayuda"),
             leading: Icon( Icons.question_mark, color: Theme.of(context).colorScheme.onBackground ),
-            onTap: () {},
+            onTap: _enlazaSitio,
           ),
+
+          const Divider( thickness: 2, ),
+          const SizedBox(height: 80, ),
+
+          const Divider( thickness: 2, ),
+          ListTile(
+            title: const Text("Canjear código"),
+            leading: Icon(Icons.password, color: Theme.of(context).colorScheme.onBackground ),
+            onTap: _canjeaCodigo,
+          ),
+
+          const Divider( thickness: 4, ),
 
         ],
       ),
@@ -80,5 +96,26 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
 
     // ignore: use_build_context_synchronously
     return context.go('/login'); 
+  }
+
+  void _cambiaTema(bool isOscuro) {
+    if ( isOscuro ) {
+      BeansDriver.of(context).changeTheme( ThemeMode.dark );
+    }
+    else {
+      BeansDriver.of(context).changeTheme( ThemeMode.light );
+    }
+  }
+
+  void _comparteApp() {
+  }
+
+  void _enlazaSitio() {
+  }
+
+  void _canjeaCodigo() {
+  }
+
+  void _muestraNotas() {
   }
 }
