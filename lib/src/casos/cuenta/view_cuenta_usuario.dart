@@ -1,7 +1,7 @@
-import 'package:avatars/avatars.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_persona.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_ubicacion.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_usuario.dart';
+import 'package:beans_driver_flutter/src/comun/avatar_usuario.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +43,7 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Center( child: Avatar(
-          name: 'Usuario',
-          shape: AvatarShape.circle(100),
-          onTap: () {}
-        ), ),
+        Center( child: AvatarUsuario(usu: usu, per: per, permiteEditar: true,) ),
 
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
