@@ -1,10 +1,17 @@
 import 'package:beans_driver_flutter/main.dart';
+import 'package:beans_driver_flutter/src/comun/avatar_usuario.dart';
+import 'package:beans_driver_flutter/src/modelos/persona.dart';
+import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerUsuario extends StatefulWidget {
-  const DrawerUsuario({super.key});
+
+  final Persona per;
+  final Usuario usu;
+
+  const DrawerUsuario({super.key, required this.per, required this.usu});
 
   @override
   State<DrawerUsuario> createState() => _DrawerUsuarioState();
@@ -15,7 +22,7 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.background,
-      child: Column(
+      child: ListView(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
@@ -28,6 +35,13 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
+          ),
+
+          UserAccountsDrawerHeader(
+            accountName: Text("${widget.per.nombre} ${widget.per.apePrimero} ${widget.per.apeSegundo}"),
+            accountEmail: Text("${widget.usu.correo}"),
+            currentAccountPictureSize: const Size.square(90),
+            currentAccountPicture: AvatarUsuario(usu: widget.usu, per: widget.per, permiteEditar: false),
           ),
 
           const Divider( thickness: 2, ),
@@ -45,7 +59,7 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
           ),
           
           const Divider( thickness: 2, ),
-          const SizedBox( height: 40, ),
+          const SizedBox( height: 20, ),
 
           const Divider( thickness: 2, ),
           ListTile(
@@ -69,7 +83,7 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
           ),
 
           const Divider( thickness: 2, ),
-          const SizedBox(height: 80, ),
+          const SizedBox(height: 20, ),
 
           const Divider( thickness: 2, ),
           ListTile(

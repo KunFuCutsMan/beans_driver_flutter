@@ -1,7 +1,10 @@
 import 'package:beans_driver_flutter/src/comun/app_barra.dart';
 import 'package:beans_driver_flutter/src/comun/drawer_usuario.dart';
+import 'package:beans_driver_flutter/src/modelos/persona.dart';
+import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -15,13 +18,35 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+
+  Usuario usu = Usuario(usuarioID: 0);
+  Persona per = Persona(personaID: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    
+    () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      usu = Usuario(usuarioID: prefs.getInt("usuarioID")! );
+      await usu.obtenUsuarioEnDB();
+      usu.contrasena = prefs.getString("usuarioContra");
+
+      per = Persona(personaID: usu.personaID!);
+      await per.obtenPersonaEnDB();
+
+      setState(() { usu; per; });
+    }();
+
+  }
+
   // Muchas gracias a Sneh Mehta:
   // https://snehmehta.medium.com/dynamic-bottom-navigation-with-go-router-flutter-power-series-part-1-2437e2d72546
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarra(),
-      drawer: const DrawerUsuario(),
+      drawer: DrawerUsuario(per: per, usu: usu,),
       body: widget.cuerpo,
       
       bottomNavigationBar: BottomNavigationBar(
