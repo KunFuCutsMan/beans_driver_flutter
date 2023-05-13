@@ -67,9 +67,11 @@ class _DialogoEditaAvatarState extends State<DialogoEditaAvatar> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
 
-        image != null
-          ? Image.file( File( image!.path ), fit: BoxFit.cover, )
-          : const Text("No has seleccionado una imagen", textAlign: TextAlign.center,),
+          image != null
+            ? Image.file( File( image!.path ), fit: BoxFit.cover, )
+            : const Text("No has seleccionado una imagen", textAlign: TextAlign.center,),
+
+          const Text("Recomendamos utilizar una imagen cuadrada", textAlign: TextAlign.center,),
 
           ElevatedButton(
             child: const Wrap(
