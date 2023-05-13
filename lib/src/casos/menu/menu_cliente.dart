@@ -1,5 +1,5 @@
+import 'package:beans_driver_flutter/src/casos/menu/drawer_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/app_barra.dart';
-import 'package:beans_driver_flutter/src/comun/drawer_usuario.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
