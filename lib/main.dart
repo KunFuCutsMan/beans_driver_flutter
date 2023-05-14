@@ -2,6 +2,8 @@ import 'package:beans_driver_flutter/src/casos/cuenta/view_cuenta_usuario.dart';
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
 import 'package:beans_driver_flutter/src/casos/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
+import 'package:beans_driver_flutter/src/casos/servicio/view_llama_servicio.dart';
+import 'package:beans_driver_flutter/src/casos/servicio/view_sirve_servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -72,11 +74,18 @@ final _router = GoRouter(
         
         // Actua como un router normal, pero ahora sirver para el bottomNavigationBar
         GoRoute(
-          path: '/servicio',
+          path: '/servicio/:rolUsuario',
           parentNavigatorKey: _shellNavigatorKey,
           builder: (context, state) {
             // Reemplaza un body aquí
-            return const Center( child: Text("Servicio") );
+            if ( int.parse( state.pathParameters['rolUsuario']! ) == 1 ) {
+              return const ViewLlamaServicio();
+            }
+            else if ( int.parse( state.pathParameters['rolUsuario']! ) == 2 ) {
+              return const ViewSirveServicio();
+            }
+            
+            return const Center( child: Text("Servicio"), );
           },
         ),
         
@@ -90,10 +99,13 @@ final _router = GoRouter(
         ),
         
         GoRoute(
-          path: '/cuenta',
+          path: '/cuenta/:usuarioID/:personaID',
           parentNavigatorKey: _shellNavigatorKey,
           builder: (context, state) {
-            return const ViewCuentaUsuario();
+            return ViewCuentaUsuario(
+              personaID: int.parse(state.pathParameters['personaID']!),
+              usuarioID: int.parse(state.pathParameters['usuarioID']!),
+            );
           },
         ),
       ],

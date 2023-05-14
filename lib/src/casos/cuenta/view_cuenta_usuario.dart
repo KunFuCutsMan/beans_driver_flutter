@@ -9,7 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tab_container/tab_container.dart';
 
 class ViewCuentaUsuario extends StatefulWidget {
-  const ViewCuentaUsuario({super.key});
+
+  final int usuarioID;
+  final int personaID;
+  const ViewCuentaUsuario({super.key, required this.usuarioID, required this.personaID});
 
   @override
   State<ViewCuentaUsuario> createState() => _ViewCuentaUsuarioState();
@@ -17,23 +20,32 @@ class ViewCuentaUsuario extends StatefulWidget {
 
 class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
 
-  Usuario usu = Usuario(usuarioID: 0);
-  Persona per = Persona(personaID: 0);
+  late Usuario usu = Usuario(usuarioID: 0);
+  late Persona per = Persona(personaID: 0);
+
+  // Esta variable nos servirá para indicar si nuestros datos se recolectaron
+  // Se actualiza al final de la función asincrona de initState()
+  bool _datosListos = false;
 
   @override
   void initState() {
     super.initState();
+
+    usu.usuarioID = widget.usuarioID;
+    per.personaID = widget.personaID;
     
     () async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      usu = Usuario(usuarioID: prefs.getInt("usuarioID")! );
-      await usu.obtenUsuarioEnDB();
-      usu.contrasena = prefs.getString("usuarioContra");
 
-      per = Persona(personaID: usu.personaID!);
-      await per.obtenPersonaEnDB();
+      await Future.wait([
+        () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          usu.contrasena = prefs.getString("usuarioContra");
+        }(),
+        usu.obtenUsuarioEnDB(),
+        per.obtenPersonaEnDB(),
+      ]);
 
-      setState(() { usu; per; });
+      setState((){ _datosListos = true; });
     }();
 
   }
@@ -49,31 +61,37 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
           width: MediaQuery.of(context).size.width * 0.9,
           child: AspectRatio(
             aspectRatio: 10 / 12,
-            child: TabContainer(
-              childPadding: const EdgeInsets.all(20),
-              tabExtent: 60,
-              selectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
-              unselectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onBackground
-              ),
-              tabs: const [
-                'Datos\npersonales',
-                'Ubicación',
-                'Usuario'
-              ],
-              color: Theme.of(context).colorScheme.primary,
-              children: [
-                TabDatosPersona( per: per, ),
-                TabDatosUbicacion( per: per ),
-                TabDatosUsuario( usu: usu ),
-              ],
-            ),
+            child: tabDatos(),
           ),
         ),
       ],
+    );
+  }
+
+  Widget tabDatos() {
+    return TabContainer(
+      childPadding: const EdgeInsets.all(20),
+      tabExtent: 60,
+      selectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      unselectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onBackground
+      ),
+      tabs: const [
+        'Datos\npersonales',
+        'Ubicación',
+        'Usuario'
+      ],
+      color: Theme.of(context).colorScheme.primary,
+      // Si tenemos nuestros datos, entonces podemos continuar con la creación de los tabs
+      // En cambio permanecen vacíos bajo un texto vacío
+      children: [
+        _datosListos ? TabDatosPersona( per: per, ) : const Text(""),
+        _datosListos ? TabDatosUbicacion( per: per ) : const Text(""),
+        _datosListos ? TabDatosUsuario( usu: usu ) : const Text(""),
+      ]
     );
   }
 }

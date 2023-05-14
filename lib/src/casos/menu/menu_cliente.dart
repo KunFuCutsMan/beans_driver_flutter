@@ -56,18 +56,22 @@ class _MenuState extends State<Menu> {
         currentIndex: _calculaIndexActual( context ),
         onTap: _onTap,
         
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon( Icons.room_service_outlined ),
-            activeIcon: Icon( Icons.room_service ),
-            label: "Servicio",
+            icon: const Icon( Icons.room_service_outlined ),
+            activeIcon: const Icon( Icons.room_service ),
+            label: usu.rolUsuarioID == 1
+              ? "Pedir Servicio"
+              : usu.rolUsuarioID == 2
+                ? "Dar Servicio"
+                : "Servicio" ,
           ), 
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon( Icons.home_outlined ),
             activeIcon: Icon( Icons.home ),
             label: "Home",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_outlined),
             activeIcon: Icon( Icons.person ),
             label: "Cuenta",
@@ -96,10 +100,10 @@ class _MenuState extends State<Menu> {
 
   void _onTap(int value) {
     switch ( value ) {
-      case 0: return context.go('/servicio');
+      case 0: return context.go('/servicio/${usu.rolUsuarioID}');
       case 1: return context.go('/home');
-      case 2: return context.go('/cuenta');
-      default: return context.go('/servicio');
+      case 2: return context.go('/cuenta/${usu.usuarioID}/${per.personaID}');
+      default: return context.go('/servicio/${usu.rolUsuarioID}');
     }
   }
 }
