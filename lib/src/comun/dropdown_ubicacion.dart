@@ -139,7 +139,7 @@ class _DropdownUbicacionState extends State<DropdownUbicacion> {
           
           decoration: widget.decoracion?.copyWith(
             label: const Text("Estado:")
-          ) ?? const InputDecoration( label: Text("Estado") ),
+          ) ?? const InputDecoration( label: Text("Estado:") ),
 
           items: _listaEstados.map( (e) =>
             DropdownMenuItem<int>(
