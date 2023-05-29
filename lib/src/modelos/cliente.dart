@@ -57,5 +57,10 @@ class Cliente extends Usuario {
 
     return res;
   }
+
+  @override
+  String toString() {
+    return "Cliente: clienteID: $clienteID, ${super.toString()}";
+  }
   
 }

@@ -74,12 +74,15 @@ final _router = GoRouter(
         
         // Actua como un router normal, pero ahora sirver para el bottomNavigationBar
         GoRoute(
-          path: '/servicio/:rolUsuario',
+          path: '/servicio/:rolUsuario/:personaID/:usuarioID',
           parentNavigatorKey: _shellNavigatorKey,
           builder: (context, state) {
             // Reemplaza un body aquí
             if ( int.parse( state.pathParameters['rolUsuario']! ) == 1 ) {
-              return const ViewLlamaServicio();
+              return ViewLlamaServicio(
+                personaID: int.parse( state.pathParameters['personaID']! ),
+                usuarioID: int.parse( state.pathParameters['usuarioID']! ),
+              );
             }
             else if ( int.parse( state.pathParameters['rolUsuario']! ) == 2 ) {
               return const ViewSirveServicio();
