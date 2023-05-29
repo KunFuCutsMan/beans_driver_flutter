@@ -17,7 +17,10 @@ class TabDatosUsuario extends StatefulWidget {
   State<TabDatosUsuario> createState() => _TabDatosUsuarioState();
 }
 
-class _TabDatosUsuarioState extends State<TabDatosUsuario> {
+class _TabDatosUsuarioState extends State<TabDatosUsuario> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
@@ -60,6 +63,7 @@ class _TabDatosUsuarioState extends State<TabDatosUsuario> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView( child: FormBuilder(
       key: formKey,
       initialValue: {

@@ -4,9 +4,9 @@ import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/avatar_usuario.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
+import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tab_container/tab_container.dart';
 
 class ViewCuentaUsuario extends StatefulWidget {
 
@@ -69,28 +69,36 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
   }
 
   Widget tabDatos() {
-    return TabContainer(
-      childPadding: const EdgeInsets.all(20),
-      tabExtent: 60,
-      selectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-        color: Theme.of(context).colorScheme.onPrimary,
+    return ContainedTabBarView(
+      
+      tabBarProperties: TabBarProperties(
+        background: Container( color: Theme.of(context).colorScheme.primary, ),
+        indicator: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        labelColor: Theme.of(context).colorScheme.secondary,
+        labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+
+        unselectedLabelColor: Theme.of(context).colorScheme.background,
+        unselectedLabelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+          fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onBackground,
+        ),
       ),
-      unselectedTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-        fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.onBackground
-      ),
+
       tabs: const [
-        'Datos\npersonales',
-        'Ubicación',
-        'Usuario'
+        Text('Datos\npersonales'),
+        Text('Ubicación'),
+        Text('Usuario'),
       ],
-      color: Theme.of(context).colorScheme.primary,
       // Si tenemos nuestros datos, entonces podemos continuar con la creación de los tabs
       // En cambio permanecen vacíos bajo un texto vacío
-      children: [
-        _datosListos ? TabDatosPersona( per: per, ) : const Text(""),
-        _datosListos ? TabDatosUbicacion( per: per ) : const Text(""),
-        _datosListos ? TabDatosUsuario( usu: usu ) : const Text(""),
+      views: [
+        _datosListos ? TabDatosPersona( per: per, ): const Text(""),
+        _datosListos ? TabDatosUbicacion( per: per ): const Text(""),
+        _datosListos ? TabDatosUsuario( usu: usu ): const Text(""),
       ]
     );
   }
