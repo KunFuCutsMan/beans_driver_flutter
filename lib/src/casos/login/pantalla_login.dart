@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:beans_driver_flutter/src/casos/login/form_login_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/app_barra.dart';
 import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
