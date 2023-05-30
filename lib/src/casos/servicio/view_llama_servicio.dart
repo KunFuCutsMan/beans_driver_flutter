@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/comun/dropdown_ubicacion.dart';
+import 'package:beans_driver_flutter/src/comun/tabbed_contenedor.dart';
 import 'package:beans_driver_flutter/src/modelos/cliente.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
@@ -60,96 +61,21 @@ class _ViewLlamaServicioState extends State<ViewLlamaServicio> {
           runSpacing: 15,
           children: [
 
-            // Datos del Servicio
-            Text("Datos del servicio", style: Theme.of(context).textTheme.headlineSmall, ),
-
-            // Fecha
-            FormBuilderDateTimePicker(
-              name: 'fecha',
-              inputType: InputType.date,
-              decoration: const InputDecoration( label: Text("Fecha:") ),
-              firstDate: DateTime.now().subtract( const Duration( seconds: 1 ) ),
-              lastDate: DateTime.now().add( const Duration(days: 7) ),
-              initialValue: DateTime.now(),
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(errorText: "Ingrese una fecha válida"),
-              ]),
-            ),
-
-            // Hora
-            FormBuilderDateTimePicker(
-              name: 'hora',
-              inputType: InputType.time,
-              decoration: const InputDecoration( label: Text("Hora:") ),
-              firstDate: DateTime.now().subtract(const Duration( seconds: 1 )),
-              lastDate: DateTime.now().add( const Duration(hours: 24) ),
-              initialValue: DateTime.now(),
-              validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(errorText: "Ingrese una hora válida"),
-              ]),
-            ),
-            
-            FormBuilderTextField(
-              name: 'detalles',
-              decoration: const InputDecoration( label: Text("Detalles") ),
-              keyboardType: TextInputType.multiline,
-              validator: FormBuilderValidators.maxLength(255, errorText: "Longitud máxima de 255 caracteres"),
-              maxLength: 255,
-            ),
-
-            // Tipo de servicio
-            FormBuilderRadioGroup<int>(
-              name: 'tipoServicio',
-              decoration: const InputDecoration( label: Text("Tipo de Servicio:") ),
-              orientation: OptionsOrientation.vertical,
-              validator: FormBuilderValidators.required(errorText: "Ingrese el tipo de servicio"),
-              options: const [
-                FormBuilderFieldOption(value: 1, child: Text("Normal", style: TextStyle( fontSize: 20 ), ), ),
-                FormBuilderFieldOption(value: 2, child: Text("Recurrente", style: TextStyle( fontSize: 20 ), ), ),
-              ],
-            ),
-
-            // Ubicación Inicial
-            Text("Ubicación Inicial", style: Theme.of(context).textTheme.headlineSmall, ),
-
-            // Calle Inicial
-            FormBuilderTextField(
-                name: 'calleInicial',
-                keyboardType: TextInputType.streetAddress,
-                decoration: const InputDecoration( label: Text("Calle Inicial:") ),
-                validator: FormBuilderValidators.required(errorText: "Ingrese su calle inicial"),
+            SizedBox( child: AspectRatio(
+              aspectRatio: 10 / 12,
+              child: TabbedContenedor(
+                tabs: const [
+                  'Datos del\nServicio',
+                  'Ubicación\nInicial',
+                  'Ubicación\nFinal',
+                ],
+                vistas: [
+                  _isListo ? const FormDatosServicio() : const Text(""),
+                  _isListo ? FormDatosUbiInicial(per: per) : const Text(""),
+                  _isListo ? FormDatosUbiFinal(per: per) : const Text(""),
+                ],
               ),
-
-            // Ubicacion
-            _isListo ? DropdownUbicacion(
-              estadoNombre: 'estadoInicial',
-              municipioNombre: 'muniInicial',
-              localidadNombre: 'localInicial',
-              estadoID: per.estadoID,
-              municipioID: per.municipioID,
-              localidadID: per.localidadID,
-            ) : const Text(""),
-
-            // Ubicación Final
-            Text("Ubicación Final", style: Theme.of(context).textTheme.headlineSmall, ),
-
-            // Calle Final
-            FormBuilderTextField(
-                name: 'calleFinal',
-                keyboardType: TextInputType.streetAddress,
-                decoration: const InputDecoration( label: Text("Calle Final:") ),
-                validator: FormBuilderValidators.required(errorText: "Ingrese su calle final"),
-              ),
-
-            // Ubicacion
-            _isListo ? DropdownUbicacion(
-              estadoNombre: 'estadoFinal',
-              municipioNombre: 'muniFinal',
-              localidadNombre: 'localFinal',
-              estadoID: per.estadoID,
-              municipioID: per.municipioID,
-              localidadID: per.localidadID,
-            ) : const Text(""),
+            ), ),
 
             ElevatedButton(
               onPressed: _validaFormulario,
@@ -170,7 +96,8 @@ class _ViewLlamaServicioState extends State<ViewLlamaServicio> {
 
     if ( llave.currentState?.saveAndValidate() ?? false ) {
       
-      creaServicio( llave.currentState!.value );
+      // creaServicio( llave.currentState!.value );
+      log( ">> ${llave.currentState!.value}" );
     }
     else {
       return DialogoAlerta.avisaInfo(context, "Hubo un error al crear su servicio: Datos incorrectos o nulos");
@@ -207,4 +134,162 @@ class _ViewLlamaServicioState extends State<ViewLlamaServicio> {
       return DialogoAlerta.avisaInfo(context, "Se creó el servicio de forma exitosa");
     }
   }
+}
+
+// Datos del servicio
+class FormDatosServicio extends StatefulWidget {
+  const FormDatosServicio({super.key});
+
+  @override
+  State<FormDatosServicio> createState() => FormDdatosServicioState();
+}
+
+class FormDdatosServicioState extends State<FormDatosServicio> with AutomaticKeepAliveClientMixin {
+  
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Wrap(
+      alignment: WrapAlignment.center,
+      runSpacing: 15,
+      children: [
+        // Fecha
+        FormBuilderDateTimePicker(
+          name: 'fecha',
+          inputType: InputType.date,
+          decoration: const InputDecoration( label: Text("Fecha:") ),
+          firstDate: DateTime.now().subtract( const Duration( seconds: 1 ) ),
+          lastDate: DateTime.now().add( const Duration(days: 7) ),
+          initialValue: DateTime.now(),
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(errorText: "Ingrese una fecha válida"),
+          ]),
+        ),
+
+        // Hora
+        FormBuilderDateTimePicker(
+          name: 'hora',
+          inputType: InputType.time,
+          decoration: const InputDecoration( label: Text("Hora:") ),
+          firstDate: DateTime.now().subtract(const Duration( seconds: 1 )),
+          lastDate: DateTime.now().add( const Duration(hours: 24) ),
+          initialValue: DateTime.now(),
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(errorText: "Ingrese una hora válida"),
+          ]),
+        ),
+            
+        FormBuilderTextField(
+          name: 'detalles',
+          decoration: const InputDecoration( label: Text("Detalles") ),
+          keyboardType: TextInputType.multiline,
+          validator: FormBuilderValidators.maxLength(255, errorText: "Longitud máxima de 255 caracteres"),
+          maxLength: 255,
+        ),
+
+        // Tipo de servicio
+        FormBuilderRadioGroup<int>(
+          name: 'tipoServicio',
+          decoration: const InputDecoration( label: Text("Tipo de Servicio:") ),
+          orientation: OptionsOrientation.vertical,
+          validator: FormBuilderValidators.required(errorText: "Ingrese el tipo de servicio"),
+          options: const [
+            FormBuilderFieldOption(value: 1, child: Text("Normal", style: TextStyle( fontSize: 20 ), ), ),
+            FormBuilderFieldOption(value: 2, child: Text("Recurrente", style: TextStyle( fontSize: 20 ), ), ),
+          ],
+        ),
+      ],
+    );
+  }
+  
+  @override
+  bool get wantKeepAlive => true;
+}
+
+// Datos de la ubicación inicial
+class FormDatosUbiInicial extends StatefulWidget {
+
+  final Persona per;
+  const FormDatosUbiInicial({super.key, required this.per});
+
+  @override
+  State<FormDatosUbiInicial> createState() => _FormDatosUbiInicialState();
+}
+
+class _FormDatosUbiInicialState extends State<FormDatosUbiInicial> with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Wrap(
+      alignment: WrapAlignment.center,
+      runSpacing: 15,
+      children: [
+        // Calle Inicial
+        FormBuilderTextField(
+          name: 'calleInicial',
+          keyboardType: TextInputType.streetAddress,
+          decoration: const InputDecoration( label: Text("Calle Inicial:") ),
+          validator: FormBuilderValidators.required(errorText: "Ingrese su calle inicial"),
+        ),
+        
+        // Ubicacion
+        DropdownUbicacion(
+          estadoNombre: 'estadoInicial',
+          municipioNombre: 'muniInicial',
+          localidadNombre: 'localInicial',
+          estadoID: widget.per.estadoID,
+          municipioID: widget.per.municipioID,
+          localidadID: widget.per.localidadID,
+        ),
+
+      ],
+    );
+  }
+  
+  @override
+  bool get wantKeepAlive => true;
+}
+
+// Datos de la ubicación final
+class FormDatosUbiFinal extends StatefulWidget {
+  
+  final Persona per;
+  const FormDatosUbiFinal({super.key, required this.per});
+
+  @override
+  State<FormDatosUbiFinal> createState() => _FormDatosUbiFinalState();
+}
+
+class _FormDatosUbiFinalState extends State<FormDatosUbiFinal> with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Wrap(
+      alignment: WrapAlignment.center,
+      runSpacing: 15,
+      children: [
+        // Calle Final
+        FormBuilderTextField(
+          name: 'calleFinal',
+          keyboardType: TextInputType.streetAddress,
+          decoration: const InputDecoration( label: Text("Calle Final:") ),
+          validator: FormBuilderValidators.required(errorText: "Ingrese su calle final"),
+        ),
+
+            // Ubicacion
+        DropdownUbicacion(
+          estadoNombre: 'estadoFinal',
+          municipioNombre: 'muniFinal',
+          localidadNombre: 'localFinal',
+          estadoID: widget.per.estadoID,
+          municipioID: widget.per.municipioID,
+          localidadID: widget.per.localidadID,
+        ),
+
+      ],
+    );
+  }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
