@@ -72,34 +72,50 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
     return ContainedTabBarView(
       
       tabBarProperties: TabBarProperties(
-        background: Container( color: Theme.of(context).colorScheme.primary, ),
         indicator: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
+          borderRadius: const BorderRadius.vertical( top: Radius.circular(10) )
         ),
-        labelColor: Theme.of(context).colorScheme.secondary,
+        
+        labelColor: Theme.of(context).colorScheme.onPrimary,
         labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Theme.of(context).colorScheme.onPrimary,
         ),
 
-        unselectedLabelColor: Theme.of(context).colorScheme.background,
+        unselectedLabelColor: Theme.of(context).colorScheme.onBackground,
         unselectedLabelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
           fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onBackground,
         ),
       ),
 
       tabs: const [
-        Text('Datos\npersonales'),
-        Text('Ubicación'),
-        Text('Usuario'),
+        Text('Datos\npersonales', textAlign: TextAlign.center,),
+        Text('Ubicación', textAlign: TextAlign.center,),
+        Text('Usuario', textAlign: TextAlign.center,),
       ],
       // Si tenemos nuestros datos, entonces podemos continuar con la creación de los tabs
       // En cambio permanecen vacíos bajo un texto vacío
       views: [
-        _datosListos ? TabDatosPersona( per: per, ): const Text(""),
-        _datosListos ? TabDatosUbicacion( per: per ): const Text(""),
-        _datosListos ? TabDatosUsuario( usu: usu ): const Text(""),
-      ]
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: const BorderRadius.vertical( bottom: Radius.circular(10) )
+          ),
+          padding: const EdgeInsets.all(20),
+          child: _datosListos ? TabDatosPersona( per: per, ): const Text(""),
+        ),
+        Container(
+          color: Theme.of(context).colorScheme.primary,
+          padding: const EdgeInsets.all(20),
+          child: _datosListos ? TabDatosUbicacion( per: per ): const Text(""),
+        ),
+        Container(
+          color: Theme.of(context).colorScheme.primary,
+          padding: const EdgeInsets.all(20),
+          child: _datosListos ? TabDatosUsuario( usu: usu ): const Text(""),
+        ),
+      ],
     );
   }
 }
