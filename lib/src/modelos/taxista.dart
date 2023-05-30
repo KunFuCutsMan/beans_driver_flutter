@@ -14,7 +14,13 @@ class Taxista extends Usuario {
     super.status,
   });
 
-  Future<void> obtenClienteEnDB() async {
+  @override
+  Future<void> obtenUsuarioEnDB() async {
+    await super.obtenUsuarioEnDB();
+    await obtenTaxistaEnDB();
+  }
+
+  Future<void> obtenTaxistaEnDB() async {
     Map<String, dynamic> res = await con.get(path: 'taxista/datos', params: {
       "usuarioID": "$usuarioID",
     });

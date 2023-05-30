@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:beans_driver_flutter/src/casos/login/form_login_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/app_barra.dart';
 import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
@@ -42,7 +44,9 @@ class _PantallaLoginState extends State<PantallaLogin> {
           children: [
             FormLoginUsuario(
               formKey: widget.llaveFormulario,
-              resultado: () => validaLogin( resultado: () => context.go('/home') ),
+              resultado: () => validaLogin(
+                resultado: ( usuarioID, rolUsuarioID ) => context.go('/home/$rolUsuarioID/$usuarioID'),
+              ),
             ),
     
             Column(
@@ -61,7 +65,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
     );
   }
 
-  void validaLogin({ required void Function() resultado }) async {
+  void validaLogin({ required void Function( int usuarioID, int rolUsuarioID ) resultado }) async {
     Usuario usu = Usuario(usuarioID: 0);
     usu.correo = widget.llaveFormulario.currentState?.value['correo'] ?? "";
     usu.contrasena = widget.llaveFormulario.currentState?.value['contrasena'] ?? "";
@@ -79,7 +83,7 @@ class _PantallaLoginState extends State<PantallaLogin> {
         prefs.setInt("usuarioID", int.parse(res['_']['usuarioID']) ),
       ]);
 
-      resultado.call();
+      resultado.call( int.parse(res['_']['usuarioID']), int.parse(res['_']['rolUsuarioID']) );
     }
     else {
       // Ahora la aplicación sabe que no estás logeado

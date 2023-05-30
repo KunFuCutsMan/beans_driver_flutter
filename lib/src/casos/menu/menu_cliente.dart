@@ -101,7 +101,7 @@ class _MenuState extends State<Menu> {
   void _onTap(int value) {
     switch ( value ) {
       case 0: return context.go('/servicio/${usu.rolUsuarioID}/${per.personaID}/${usu.usuarioID}');
-      case 1: return context.go('/home');
+      case 1: return context.go('/home/${usu.rolUsuarioID}/${usu.usuarioID}');
       case 2: return context.go('/cuenta/${usu.usuarioID}/${per.personaID}');
       default: return context.go('/servicio/${usu.rolUsuarioID}');
     }

@@ -1,4 +1,5 @@
 import 'package:beans_driver_flutter/src/casos/cuenta/view_cuenta_usuario.dart';
+import 'package:beans_driver_flutter/src/casos/home/pantalla_home.dart';
 import 'package:beans_driver_flutter/src/casos/login/pantalla_login.dart';
 import 'package:beans_driver_flutter/src/casos/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
@@ -36,7 +37,7 @@ final routerBeansDriver = GoRouter(
           await prefs.setInt("usuarioID", int.parse(res['_']['usuarioID']));
 
           // Ve al menu principal
-          return '/home';
+          return '/home/${res['_']['rolUsuarioID']}/${res['_']['usuarioID']}';
         } else {
           // En cambio, borra los datos de login y regresa a la pantalla login
           await Future.wait([
@@ -89,11 +90,13 @@ final routerBeansDriver = GoRouter(
         ),
         
         GoRoute(
-          path: '/home',
+          path: '/home/:rolUsuarioID/:usuarioID',
           parentNavigatorKey: _shellNavigatorKey,
           builder: (context, state) {
-            // Reemplaza un body aquí
-            return const Center( child: Text("Home") );
+            return PantallaHome(
+              rolUsuarioID: int.parse(state.pathParameters['rolUsuarioID']!),
+              usuarioID: int.parse(state.pathParameters['usuarioID']!),
+            );
           },
         ),
         

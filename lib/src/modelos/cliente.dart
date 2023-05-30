@@ -14,6 +14,12 @@ class Cliente extends Usuario {
     super.status,
   });
 
+  @override
+  Future<void> obtenUsuarioEnDB() async {
+    await super.obtenUsuarioEnDB();
+    await obtenClienteEnDB();
+  }
+
   Future<void> obtenClienteEnDB() async {
     Map<String, dynamic> res = await con.get(path: 'cliente/datos', params: {
       "usuarioID": "$usuarioID",
