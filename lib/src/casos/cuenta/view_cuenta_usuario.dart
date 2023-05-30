@@ -2,9 +2,9 @@ import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_persona.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_ubicacion.dart';
 import 'package:beans_driver_flutter/src/casos/cuenta/tab_datos_usuario.dart';
 import 'package:beans_driver_flutter/src/comun/avatar_usuario.dart';
+import 'package:beans_driver_flutter/src/comun/tabbed_contenedor.dart';
 import 'package:beans_driver_flutter/src/modelos/persona.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,59 +61,19 @@ class _ViewCuentaUsuarioState extends State<ViewCuentaUsuario> {
           width: MediaQuery.of(context).size.width * 0.9,
           child: AspectRatio(
             aspectRatio: 10 / 12,
-            child: tabDatos(),
+            child: TabbedContenedor(
+              tabs: const [
+                'Datos\nPersonales',
+                'Ubicación',
+                'Cuenta',
+              ],
+              vistas: [
+                _datosListos ? TabDatosPersona( per: per, ): const Text(""),
+                _datosListos ? TabDatosUbicacion( per: per ): const Text(""),
+                _datosListos ? TabDatosUsuario( usu: usu ): const Text(""),
+              ]
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget tabDatos() {
-    return ContainedTabBarView(
-      
-      tabBarProperties: TabBarProperties(
-        indicator: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          borderRadius: const BorderRadius.vertical( top: Radius.circular(10) )
-        ),
-        
-        labelColor: Theme.of(context).colorScheme.onPrimary,
-        labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
-
-        unselectedLabelColor: Theme.of(context).colorScheme.onBackground,
-        unselectedLabelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-      ),
-
-      tabs: const [
-        Text('Datos\npersonales', textAlign: TextAlign.center,),
-        Text('Ubicación', textAlign: TextAlign.center,),
-        Text('Usuario', textAlign: TextAlign.center,),
-      ],
-      // Si tenemos nuestros datos, entonces podemos continuar con la creación de los tabs
-      // En cambio permanecen vacíos bajo un texto vacío
-      views: [
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius: const BorderRadius.vertical( bottom: Radius.circular(10) )
-          ),
-          padding: const EdgeInsets.all(20),
-          child: _datosListos ? TabDatosPersona( per: per, ): const Text(""),
-        ),
-        Container(
-          color: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.all(20),
-          child: _datosListos ? TabDatosUbicacion( per: per ): const Text(""),
-        ),
-        Container(
-          color: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.all(20),
-          child: _datosListos ? TabDatosUsuario( usu: usu ): const Text(""),
         ),
       ],
     );
