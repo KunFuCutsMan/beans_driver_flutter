@@ -53,8 +53,8 @@ class Servicio {
       return;
     }
 
-    fecha = res['Fecha'];
-    hora = res['Hora'];
+    fecha = DateTime.parse(res['Fecha']);
+    hora = DateTime.parse(res['Hora']);
     tipoServicioID = int.parse( res['idtipo-servicio'] );
     statusServicioID = int.parse( res['idstatus-servicio'] );
     detalles = res['Detalles'];

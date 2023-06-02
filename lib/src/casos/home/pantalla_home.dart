@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/comun/targeta_servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/cliente.dart';
 import 'package:beans_driver_flutter/src/modelos/taxista.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
@@ -39,7 +40,7 @@ class _PantallaHomeState extends State<PantallaHome> {
   Widget build(BuildContext context) {
     return Center(
       child: _isListo
-        ? Text(usu.toString())
+        ? const TargetaServicio(servicioID: 2)
         : const Text("El legendario pantalla_home"),
     );
   }
