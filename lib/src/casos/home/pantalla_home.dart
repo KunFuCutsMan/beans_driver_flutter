@@ -40,7 +40,7 @@ class _PantallaHomeState extends State<PantallaHome> {
   Widget build(BuildContext context) {
     return Center(
       child: _isListo
-        ? const TargetaServicio(servicioID: 2)
+        ? const TargetaServicio(servicioID: 8)
         : const Text("El legendario pantalla_home"),
     );
   }

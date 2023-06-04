@@ -49,25 +49,21 @@ class Servicio {
       'servicioID': "$servicioID",
     });
 
-    if ( res['stat'] != 200 ) {
-      return;
-    }
-
-    fecha = DateTime.parse(res['Fecha']);
-    hora = DateTime.parse(res['Hora']);
-    tipoServicioID = int.parse( res['idtipo-servicio'] );
-    statusServicioID = int.parse( res['idstatus-servicio'] );
-    detalles = res['Detalles'];
-    clienteID = int.parse( res['idcliente'] );
-    taxistaID = int.parse( res['idtaxista'] );
-    calleInicial = res['CalleInicial'];
-    estadoInicialID = int.parse( res['idestado-Inicial'] );
-    municipioInicialID = int.parse( res['idmunicipio-Inicial'] );
-    localidadInicialID = int.parse( res['idlocalidad-Inicial'] );
-    calleFinal = res['CalleFinal'];
-    estadoFinalID = int.parse( res['idestado-Final'] );
-    municipioFinalID = int.parse( res['idmunicipio-Final'] );
-    localidadFinalID = int.parse( res['idlocalidad-Final'] );
+    fecha = DateTime.parse(res['_']['Fecha']);
+    hora = DateTime.parse("0000-00-00 ${res['_']['Hora']}");
+    tipoServicioID = int.parse( res['_']['idtipo-servicio'] );
+    statusServicioID = int.parse( res['_']['idstatus-servicio'] );
+    detalles = res['_']['Detalles'];
+    clienteID = int.parse( res['_']['idcliente'] );
+    taxistaID = int.tryParse( "${res['_']['idtaxista']}" );
+    calleInicial = res['_']['CalleInicial'];
+    estadoInicialID = int.parse( res['_']['idestado-Inicial'] );
+    municipioInicialID = int.parse( res['_']['idmunicipio-Inicial'] );
+    localidadInicialID = int.parse( res['_']['idlocalidad-Inicial'] );
+    calleFinal = res['_']['CalleFinal'];
+    estadoFinalID = int.parse( res['_']['idestado-Final'] );
+    municipioFinalID = int.parse( res['_']['idmunicipio-Final'] );
+    localidadFinalID = int.parse( res['_']['idlocalidad-Final'] );
   }
 
   Future< Map<String, dynamic> > insertaEnDB() async {
