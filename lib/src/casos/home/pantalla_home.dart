@@ -16,7 +16,9 @@ class PantallaHome extends StatefulWidget {
 class _PantallaHomeState extends State<PantallaHome> {
 
   late final Usuario usu;
+  late VeTargetaComo vista;
   bool _isListo = false;
+  int servicioID = 0;
   
   @override
   void initState() {
@@ -24,9 +26,11 @@ class _PantallaHomeState extends State<PantallaHome> {
 
     if ( widget.rolUsuarioID == 1 ) {
       usu = Cliente(usuarioID: widget.usuarioID);
+      vista = VeTargetaComo.cliente;
     }
     else if ( widget.rolUsuarioID == 2 ) {
       usu = Taxista(usuarioID: widget.usuarioID);
+      vista = VeTargetaComo.taxista;
     }
 
     () async {
@@ -39,8 +43,8 @@ class _PantallaHomeState extends State<PantallaHome> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: _isListo
-        ? const TargetaServicio(servicioID: 8)
+      child: _isListo && servicioID > 0
+        ? TargetaServicio(servicioID: servicioID, vista: vista)
         : const Text("El legendario pantalla_home"),
     );
   }

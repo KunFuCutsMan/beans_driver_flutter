@@ -4,9 +4,16 @@ import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:flutter/material.dart';
 
+enum VeTargetaComo {
+  taxista,
+  cliente,
+  ninguno,
+}
+
 class TargetaServicio extends StatefulWidget {
   final int servicioID;
-  const TargetaServicio({super.key, required this.servicioID});
+  final VeTargetaComo vista;
+  const TargetaServicio({super.key, required this.servicioID, required this.vista});
 
   @override
   State<TargetaServicio> createState() => _TargetaServicioState();
@@ -45,18 +52,65 @@ class _TargetaServicioState extends State<TargetaServicio> {
             _isListo ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(tipoServicio(serv.tipoServicioID!)),
-                Text(fechaServicio(serv.fecha!)),
-                Text(horaServicio(serv.hora!)),
+                Text(tipoServicio(serv.tipoServicioID!), style: Theme.of(context).textTheme.labelLarge),
+                Text(fechaServicio(serv.fecha!), style: Theme.of(context).textTheme.labelLarge),
+                Text(horaServicio(serv.hora!), style: Theme.of(context).textTheme.labelLarge),
               ],
             ) : const Text(""),
 
             _isListo ? UbicacionTexto(serv: serv) : const Text(""),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary
+                  ),
+                  onPressed: (){},
+                  child: const Text("Ubicación"),
+                ),
+
+                if ( widget.vista == VeTargetaComo.cliente )
+                  ...botonesCliente(),
+                
+                if ( widget.vista == VeTargetaComo.taxista )
+                  ...botonesTaxista(),
+              ],
+            )
           ],
         ),
       ),
     );
   }
+
+  List<Widget> botonesCliente() => [
+    ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary
+      ),
+      onPressed: (){},
+      child: const Text("Terminar")
+    ),
+    ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary
+      ),
+      onPressed: (){},
+      child: const Text("Cancelar")
+    ),
+  ];
+
+  List<Widget> botonesTaxista() => [
+    ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary
+      ),
+      onPressed: (){},
+      child: const Text("Escoger")
+    ),
+  ];
 
   String tipoServicio(int tipoServicioID) => tipoServicioID == 1
       ? "Normal"
@@ -130,7 +184,7 @@ class _UbicacionTextoState extends State<UbicacionTexto> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         // Ubicacion inicial
         Column(
