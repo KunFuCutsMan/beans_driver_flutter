@@ -21,7 +21,7 @@ class Temas {
     error: Temas.rojo,
     onError: Temas.negro,
     background: Temas.blanco,
-    onBackground: Temas.blanco,
+    onBackground: Temas.negro,
     surface: Temas.amarilloVerdeClaro,
     onSurface: Temas.negro,
   );
@@ -47,6 +47,11 @@ class Temas {
       filled: true,
       fillColor: Temas.colorSchemeClaro.background,
     ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Temas.colorSchemeClaro.background,
+      selectedItemColor: Temas.colorSchemeClaro.onBackground,
+      unselectedItemColor: Temas.verdeNegruzco,
+    ),
   );
 
   static ThemeData temaOscuro = ThemeData(
@@ -55,6 +60,11 @@ class Temas {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Temas.colorSchemeOscuro.background,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Temas.colorSchemeOscuro.background,
+      selectedItemColor: Temas.colorSchemeOscuro.onBackground,
+      unselectedItemColor: Temas.amarilloVerde,
     ),
   );
 }

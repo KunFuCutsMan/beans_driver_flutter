@@ -51,8 +51,6 @@ class _MenuState extends State<Menu> {
       
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 16.0,
-        selectedItemColor: Theme.of(context).colorScheme.onBackground,
-
         currentIndex: _calculaIndexActual( context ),
         onTap: _onTap,
         
