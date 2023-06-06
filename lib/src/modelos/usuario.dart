@@ -88,6 +88,13 @@ class Usuario {
     return res;
   }
 
+  // Sobreescríbeme
+  Future< Map<String, dynamic> > obtenServicioActual() async {
+    Map<String, dynamic> res = await con.get(path: 'servicio/actual', params: {});
+
+    return res;
+  }
+
   @override
   String toString() {
     return "Usuario: usuarioID: $usuarioID, correo: $correo, contrasena: $contrasena,"

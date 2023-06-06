@@ -35,17 +35,25 @@ class _PantallaHomeState extends State<PantallaHome> {
 
     () async {
       await usu.obtenUsuarioEnDB();
+      Map<String, dynamic> res = await usu.obtenServicioActual();
+
       setState(() { _isListo = true; });
+      if ( res['stat'] == 200 && res['_']['tieneServicio'] ) {
+        setState(() { servicioID = int.parse(res['_']['servicioID'][0]); });
+      }
     }();
     
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _isListo && servicioID > 0
-        ? TargetaServicio(servicioID: servicioID, vista: vista)
-        : const Text("El legendario pantalla_home"),
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: _isListo && servicioID > 0
+          ? TargetaServicio(servicioID: servicioID, vista: vista)
+          : const Text("El legendario pantalla_home"),
+      ),
     );
   }
 }

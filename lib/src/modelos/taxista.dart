@@ -40,9 +40,10 @@ class Taxista extends Usuario {
     return res;
   }
 
+  @override
   Future< Map<String, dynamic> > obtenServicioActual() async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/status', params: {
-
+    Map<String, dynamic> res = await con.get(path: 'servicio/actual', params: {
+      'taxistaID': '$taxistaID'
     });
 
     return res;
