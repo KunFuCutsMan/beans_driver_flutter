@@ -62,7 +62,7 @@ class _ViewLlamaServicioState extends State<ViewLlamaServicio> {
           children: [
 
             SizedBox( child: AspectRatio(
-              aspectRatio: 10 / 12,
+              aspectRatio: 10 / 13,
               child: TabbedContenedor(
                 tabs: const [
                   'Datos del\nServicio',
@@ -82,7 +82,7 @@ class _ViewLlamaServicioState extends State<ViewLlamaServicio> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.secondary
               ),
-              child: Text("Editar", style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              child: Text("Pedir Servicio", style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Theme.of(context).colorScheme.onSecondary
               ), )
             ),
@@ -149,56 +149,58 @@ class FormDdatosServicioState extends State<FormDatosServicio> with AutomaticKee
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Wrap(
-      alignment: WrapAlignment.center,
-      runSpacing: 15,
-      children: [
-        // Fecha
-        FormBuilderDateTimePicker(
-          name: 'fecha',
-          inputType: InputType.date,
-          decoration: const InputDecoration( label: Text("Fecha:") ),
-          firstDate: DateTime.now().subtract( const Duration( seconds: 1 ) ),
-          lastDate: DateTime.now().add( const Duration(days: 7) ),
-          initialValue: DateTime.now(),
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(errorText: "Ingrese una fecha válida"),
-          ]),
-        ),
-
-        // Hora
-        FormBuilderDateTimePicker(
-          name: 'hora',
-          inputType: InputType.time,
-          decoration: const InputDecoration( label: Text("Hora:") ),
-          firstDate: DateTime.now().subtract(const Duration( seconds: 1 )),
-          lastDate: DateTime.now().add( const Duration(hours: 24) ),
-          initialValue: DateTime.now(),
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(errorText: "Ingrese una hora válida"),
-          ]),
-        ),
-            
-        FormBuilderTextField(
-          name: 'detalles',
-          decoration: const InputDecoration( label: Text("Detalles") ),
-          keyboardType: TextInputType.multiline,
-          validator: FormBuilderValidators.maxLength(255, errorText: "Longitud máxima de 255 caracteres"),
-          maxLength: 255,
-        ),
-
-        // Tipo de servicio
-        FormBuilderRadioGroup<int>(
-          name: 'tipoServicio',
-          decoration: const InputDecoration( label: Text("Tipo de Servicio:") ),
-          orientation: OptionsOrientation.vertical,
-          validator: FormBuilderValidators.required(errorText: "Ingrese el tipo de servicio"),
-          options: const [
-            FormBuilderFieldOption(value: 1, child: Text("Normal", style: TextStyle( fontSize: 20 ), ), ),
-            FormBuilderFieldOption(value: 2, child: Text("Recurrente", style: TextStyle( fontSize: 20 ), ), ),
-          ],
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 15,
+        children: [
+          // Fecha
+          FormBuilderDateTimePicker(
+            name: 'fecha',
+            inputType: InputType.date,
+            decoration: const InputDecoration( label: Text("Fecha:") ),
+            firstDate: DateTime.now().subtract( const Duration( seconds: 1 ) ),
+            lastDate: DateTime.now().add( const Duration(days: 7) ),
+            initialValue: DateTime.now(),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(errorText: "Ingrese una fecha válida"),
+            ]),
+          ),
+    
+          // Hora
+          FormBuilderDateTimePicker(
+            name: 'hora',
+            inputType: InputType.time,
+            decoration: const InputDecoration( label: Text("Hora:") ),
+            firstDate: DateTime.now().subtract(const Duration( seconds: 1 )),
+            lastDate: DateTime.now().add( const Duration(hours: 24) ),
+            initialValue: DateTime.now(),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(errorText: "Ingrese una hora válida"),
+            ]),
+          ),
+              
+          FormBuilderTextField(
+            name: 'detalles',
+            decoration: const InputDecoration( label: Text("Detalles") ),
+            keyboardType: TextInputType.multiline,
+            validator: FormBuilderValidators.maxLength(255, errorText: "Longitud máxima de 255 caracteres"),
+            maxLength: 255,
+          ),
+    
+          // Tipo de servicio
+          FormBuilderRadioGroup<int>(
+            name: 'tipoServicio',
+            decoration: const InputDecoration( label: Text("Tipo de Servicio:") ),
+            orientation: OptionsOrientation.vertical,
+            validator: FormBuilderValidators.required(errorText: "Ingrese el tipo de servicio"),
+            options: const [
+              FormBuilderFieldOption(value: 1, child: Text("Normal", style: TextStyle( fontSize: 20 ), ), ),
+              FormBuilderFieldOption(value: 2, child: Text("Recurrente", style: TextStyle( fontSize: 20 ), ), ),
+            ],
+          ),
+        ],
+      ),
     );
   }
   
@@ -220,29 +222,31 @@ class _FormDatosUbiInicialState extends State<FormDatosUbiInicial> with Automati
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Wrap(
-      alignment: WrapAlignment.center,
-      runSpacing: 15,
-      children: [
-        // Calle Inicial
-        FormBuilderTextField(
-          name: 'calleInicial',
-          keyboardType: TextInputType.streetAddress,
-          decoration: const InputDecoration( label: Text("Calle Inicial:") ),
-          validator: FormBuilderValidators.required(errorText: "Ingrese su calle inicial"),
-        ),
-        
-        // Ubicacion
-        DropdownUbicacion(
-          estadoNombre: 'estadoInicial',
-          municipioNombre: 'muniInicial',
-          localidadNombre: 'localInicial',
-          estadoID: widget.per.estadoID,
-          municipioID: widget.per.municipioID,
-          localidadID: widget.per.localidadID,
-        ),
-
-      ],
+    return SingleChildScrollView(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 15,
+        children: [
+          // Calle Inicial
+          FormBuilderTextField(
+            name: 'calleInicial',
+            keyboardType: TextInputType.streetAddress,
+            decoration: const InputDecoration( label: Text("Calle Inicial:") ),
+            validator: FormBuilderValidators.required(errorText: "Ingrese su calle inicial"),
+          ),
+          
+          // Ubicacion
+          DropdownUbicacion(
+            estadoNombre: 'estadoInicial',
+            municipioNombre: 'muniInicial',
+            localidadNombre: 'localInicial',
+            estadoID: widget.per.estadoID,
+            municipioID: widget.per.municipioID,
+            localidadID: widget.per.localidadID,
+          ),
+    
+        ],
+      ),
     );
   }
   
@@ -264,29 +268,31 @@ class _FormDatosUbiFinalState extends State<FormDatosUbiFinal> with AutomaticKee
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Wrap(
-      alignment: WrapAlignment.center,
-      runSpacing: 15,
-      children: [
-        // Calle Final
-        FormBuilderTextField(
-          name: 'calleFinal',
-          keyboardType: TextInputType.streetAddress,
-          decoration: const InputDecoration( label: Text("Calle Final:") ),
-          validator: FormBuilderValidators.required(errorText: "Ingrese su calle final"),
-        ),
-
-            // Ubicacion
-        DropdownUbicacion(
-          estadoNombre: 'estadoFinal',
-          municipioNombre: 'muniFinal',
-          localidadNombre: 'localFinal',
-          estadoID: widget.per.estadoID,
-          municipioID: widget.per.municipioID,
-          localidadID: widget.per.localidadID,
-        ),
-
-      ],
+    return SingleChildScrollView(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 15,
+        children: [
+          // Calle Final
+          FormBuilderTextField(
+            name: 'calleFinal',
+            keyboardType: TextInputType.streetAddress,
+            decoration: const InputDecoration( label: Text("Calle Final:") ),
+            validator: FormBuilderValidators.required(errorText: "Ingrese su calle final"),
+          ),
+    
+              // Ubicacion
+          DropdownUbicacion(
+            estadoNombre: 'estadoFinal',
+            municipioNombre: 'muniFinal',
+            localidadNombre: 'localFinal',
+            estadoID: widget.per.estadoID,
+            municipioID: widget.per.municipioID,
+            localidadID: widget.per.localidadID,
+          ),
+    
+        ],
+      ),
     );
   }
   

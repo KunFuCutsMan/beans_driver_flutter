@@ -50,8 +50,10 @@ class _PantallaHomeState extends State<PantallaHome> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Center(
-        child: _isListo && servicioID > 0
-          ? TargetaServicio(servicioID: servicioID, vista: vista)
+        child: _isListo
+          ? servicioID > 0
+            ? TargetaServicio(servicioID: servicioID, vista: vista)
+            : const Text("No tiene servicio")
           : const Text("El legendario pantalla_home"),
       ),
     );
