@@ -88,7 +88,7 @@ class Servicio {
 
   Future< Map<String, dynamic> > obtenServiciosDisponibles() async {
     Map<String, dynamic> res = await _con.post(path: 'servicio/datos', params: {
-      
+      'servicioID': '0',
     });
 
     return res;
