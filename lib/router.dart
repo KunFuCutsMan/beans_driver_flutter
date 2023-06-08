@@ -119,7 +119,7 @@ final routerBeansDriver = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       builder: (context, state) {
         return PantallaMapaServicio(
-          servicioID: int.parse(state.queryParameters['servicioID']!),
+          servicioID: int.parse(state.pathParameters['servicioID']!),
         );
       },
     ),
