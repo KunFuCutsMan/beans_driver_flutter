@@ -5,6 +5,7 @@ import 'package:beans_driver_flutter/src/casos/menu/menu_cliente.dart';
 import 'package:beans_driver_flutter/src/casos/registro/pantalla_registro.dart';
 import 'package:beans_driver_flutter/src/casos/servicio/view_llama_servicio.dart';
 import 'package:beans_driver_flutter/src/casos/servicio/view_sirve_servicio.dart';
+import 'package:beans_driver_flutter/src/comun/pantalla_mapa_servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -111,6 +112,16 @@ final routerBeansDriver = GoRouter(
           },
         ),
       ],
+    ),
+
+    GoRoute(
+      path: '/mapa/:servicioID',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) {
+        return PantallaMapaServicio(
+          servicioID: int.parse(state.queryParameters['servicioID']!),
+        );
+      },
     ),
   ],
 );

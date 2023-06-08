@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 enum VeTargetaComo {
   taxista,
@@ -68,7 +69,7 @@ class _TargetaServicioState extends State<TargetaServicio> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.secondary
                   ),
-                  onPressed: (){},
+                  onPressed: () => context.push('/mapa/${widget.servicioID}'),
                   child: const Text("Ubicación"),
                 ),
 
