@@ -96,7 +96,22 @@ class Servicio {
 
   Future< Map<String, dynamic> > editaEnDB() async {
     Map<String, dynamic> res = await _con.post(path: 'servicio/edita', params: {
-
+      'servicioID': "$servicioID",
+      'fecha': "${fecha?.year}-${fecha?.month}-${fecha?.day}",
+      'hora': "${hora?.hour}:${hora?.minute}:${hora?.second}",
+      'tipo': "$tipoServicioID",
+      'status': "$statusServicioID",
+      'detalles': "$detalles",
+      'clienteID': "$clienteID",
+      'taxistaID': "$taxistaID",
+      'edoIni': "$estadoInicialID",
+      'munIni': "$municipioInicialID",
+      'locIni': "$localidadInicialID",
+      'calIni': "$calleInicial",
+      'edoFin': "$estadoFinalID",
+      'munFin': "$municipioFinalID",
+      'locFin': "$localidadFinalID",
+      'calFin': "$calleFinal",
     });
 
     return res;

@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
+import 'package:beans_driver_flutter/src/modelos/taxista.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +16,15 @@ enum VeTargetaComo {
 class TargetaServicio extends StatefulWidget {
   final int servicioID;
   final VeTargetaComo vista;
-  const TargetaServicio({super.key, required this.servicioID, required this.vista});
+  final int? taxistaID;
+  final int? clienteID;
+  const TargetaServicio({
+    super.key,
+    required this.servicioID,
+    required this.vista,
+    this.taxistaID,
+    this.clienteID,
+  });
 
   @override
   State<TargetaServicio> createState() => _TargetaServicioState();
@@ -108,7 +118,7 @@ class _TargetaServicioState extends State<TargetaServicio> {
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.secondary
       ),
-      onPressed: (){},
+      onPressed: _asignaServicioATaxista,
       child: const Text("Escoger")
     ),
   ];
@@ -127,6 +137,32 @@ class _TargetaServicioState extends State<TargetaServicio> {
     return "${h.hour}:$minuto";
   }
 
+
+  void _asignaServicioATaxista() async {
+
+    Taxista tax = Taxista( usuarioID: 0, taxistaID: widget.taxistaID!);
+    Map<String, dynamic> tieneServicio = await tax.tieneServicio();
+
+    if ( !tieneServicio['_'] ) {
+      serv.taxistaID = widget.taxistaID!;
+      serv.statusServicioID = 2; /* Ocupado */
+      Map<String, dynamic> res = await serv.editaEnDB();
+      
+      if ( res['stat'] == 200 && res['_'] ) {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Se asignó el servicio con éxito');
+      } else {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Hubo un error al asignar el servicio: ${res['error']}');
+      }
+    }
+    else {
+      // ignore: use_build_context_synchronously
+      DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
+    }
+
+    
+  }
 }
 
 class UbicacionTexto extends StatefulWidget {
