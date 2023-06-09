@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:beans_driver_flutter/src/comun/app_barra.dart';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class PantallaMapaServicio extends StatefulWidget {
   final int servicioID;
@@ -29,8 +34,8 @@ class _PantallaMapaServicioState extends State<PantallaMapaServicio> {
     ]);
 
     return {
-      'inicial': res[0],
-      'final': res[1],
+      'inicial': res[0]['_'][0],
+      'final': res[1]['_'][0],
     };
   }
 
@@ -56,7 +61,11 @@ class _PantallaMapaServicioState extends State<PantallaMapaServicio> {
               return ErrorWidget( snapshot.error! );
             }
             else if ( snapshot.hasData ) {
-              return const Text("MAPA AQUÍ");
+              log("> ${snapshot.data}");
+              return MapaServicio(
+                ubicacionInicial: snapshot.data['inicial'],
+                ubicacionFinal: snapshot.data['final'],
+              );
             }
             else {
               return const Text("what");
@@ -67,6 +76,76 @@ class _PantallaMapaServicioState extends State<PantallaMapaServicio> {
           }
         },
       ),
+    );
+  }
+}
+
+class MapaServicio extends StatelessWidget {
+
+  final Map<String, dynamic> ubicacionInicial;
+  final Map<String, dynamic> ubicacionFinal;
+  const MapaServicio({super.key, required this.ubicacionInicial, required this.ubicacionFinal});
+
+  String format( String s ) => s
+    .replaceAll( RegExp(" ") , '" ')
+    .replaceAll( RegExp("°") , "° ")
+    .replaceAll( RegExp("´"), "' ");
+
+  @override
+  Widget build(BuildContext context) {
+    String latIni = format(ubicacionInicial['Latitud']);
+    String lngIni = format(ubicacionInicial['Longitud']);
+    String latFin = format(ubicacionFinal['Latitud']);
+    String lngFin = format(ubicacionFinal['Longitud']);
+      
+    final LatLng posicionIni = LatLng.fromSexagesimal("$latIni, $lngIni");
+    final LatLng posicionFin = LatLng.fromSexagesimal("$latFin, $lngFin");
+    
+    return FlutterMap(
+      options: MapOptions(
+        minZoom: 5,
+        maxZoom: 25,
+        zoom: 20,
+        center: posicionIni,
+      ),
+      nonRotatedChildren: [
+        TileLayer(
+          urlTemplate: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={token}',
+          additionalOptions: {
+            'token': "${dotenv.env['MAPBOX_TOKEN']}",
+            'id': 'mapbox/streets-v12',
+          },
+        ),
+        MarkerLayer(
+          markers: [
+            Marker(point: posicionIni,
+              builder: (context) => const Icon(
+                Icons.location_on,
+                size: 60,
+              ),
+            ),
+            Marker(
+              point: posicionFin,
+              builder: (context) => const Icon(
+                Icons.location_on,
+                size: 60,
+              ),
+            ),
+          ],
+        ),
+        PolylineLayer(
+          polylines: [
+            Polyline(
+              points: [
+                posicionIni,
+                posicionFin
+              ],
+              color: Colors.black,
+              strokeWidth: 4,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
