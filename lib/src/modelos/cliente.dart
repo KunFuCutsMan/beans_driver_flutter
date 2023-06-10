@@ -33,8 +33,8 @@ class Cliente extends Usuario {
   }
 
   Future< Map<String, dynamic> > tieneServicio() async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/status', params: {
-
+    Map<String, dynamic> res = await con.get(path: 'servicio/actual', params: {
+      'clienteID': '$clienteID',
     });
 
     return res;

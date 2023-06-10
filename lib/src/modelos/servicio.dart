@@ -117,6 +117,15 @@ class Servicio {
     return res;
   }
 
+  Future<Map<String, dynamic>> asignaTaxista() async {
+    Map<String, dynamic> res = await _con.post(path: 'servicio/asigna', params: {
+      'servicioID': '$servicioID',
+      'taxistaID': '$taxistaID',
+    });
+
+    return res;
+  }
+
   @override
   String toString() {
     return "Servicio: servicioID: $servicioID, fecha: $fecha, hora: $hora,"
