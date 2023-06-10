@@ -31,7 +31,7 @@ class _PantallaHomeState extends State<PantallaHome> {
     }
     else if ( widget.rolUsuarioID == 2 ) {
       usu = Taxista(usuarioID: widget.usuarioID);
-      vista = VeTargetaComo.taxista;
+      vista = VeTargetaComo.ninguno;
     }
 
     () async {
