@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/comun/objeto_vacio.dart';
 import 'package:beans_driver_flutter/src/comun/targeta_servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/cliente.dart';
 import 'package:beans_driver_flutter/src/modelos/taxista.dart';
@@ -53,7 +54,7 @@ class _PantallaHomeState extends State<PantallaHome> {
         child: _isListo
           ? servicioID > 0
             ? TargetaServicio(servicioID: servicioID, vista: vista)
-            : const Text("No tiene servicio")
+            : const ObjetoVacio(mensaje: "Bienvenido, no tiene un servicio asignado")
           : const Text("El legendario pantalla_home"),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:beans_driver_flutter/src/comun/objeto_vacio.dart';
 import 'package:beans_driver_flutter/src/comun/targeta_servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/taxista.dart';
@@ -39,15 +40,17 @@ class _ViewSirveServicioState extends State<ViewSirveServicio> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(20),
-      itemCount: servicioListas.length,
-      itemBuilder: (BuildContext context, int index) =>
-        TargetaServicio(
-          servicioID: int.parse(servicioListas[index]['idservicio']),
-          vista: VeTargetaComo.taxista,
-          taxistaID: taxistaID,
-        ),
-    );
+    return servicioListas.isNotEmpty
+      ? ListView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: servicioListas.length,
+        itemBuilder: (BuildContext context, int index) =>
+          TargetaServicio(
+            servicioID: int.parse(servicioListas[index]['idservicio']),
+            vista: VeTargetaComo.taxista,
+            taxistaID: taxistaID,
+          ),
+      )
+      : const ObjetoVacio(mensaje: "Todo calmado, por ahora");
   }
 }
