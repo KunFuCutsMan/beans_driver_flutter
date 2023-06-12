@@ -101,14 +101,14 @@ class _TargetaServicioState extends State<TargetaServicio> {
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.secondary
       ),
-      onPressed: (){},
+      onPressed: _terminaServicio,
       child: const Text("Terminar")
     ),
     ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.secondary
       ),
-      onPressed: (){},
+      onPressed: _cancelaServicio,
       child: const Text("Cancelar")
     ),
   ];
@@ -163,6 +163,12 @@ class _TargetaServicioState extends State<TargetaServicio> {
 
     
   }
+
+  void _terminaServicio() {
+  }
+
+  void _cancelaServicio() {
+  }
 }
 
 class UbicacionTexto extends StatefulWidget {
@@ -209,7 +215,7 @@ class _UbicacionTextoState extends State<UbicacionTexto> {
 
       setState(() {
         estadoInicial = res[0]['_'][0]['Nombre'].toString();
-        muniInicial = res[0]['_'][0]['Nombre'].toString();
+        muniInicial = res[1]['_'][0]['Nombre'].toString();
         localInicial = res[2]['_'][0]['Nombre'].toString();
         estadoFinal = res[3]['_'][0]['Nombre'].toString();
         muniFinal = res[4]['_'][0]['Nombre'].toString();
