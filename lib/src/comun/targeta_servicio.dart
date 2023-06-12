@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
+import 'package:beans_driver_flutter/src/modelos/cliente.dart';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/taxista.dart';
@@ -163,10 +164,46 @@ class _TargetaServicioState extends State<TargetaServicio> {
     
   }
 
-  void _terminaServicio() {
+  void _terminaServicio() async {
+    Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
+    Map<String, dynamic> tieneServicio = await cli.tieneServicio();
+
+    if ( !tieneServicio['_']['tieneServicio'] ) {
+      Map<String, dynamic> res = await cli.terminaServicio( serv.servicioID );
+      
+      if ( res['stat'] == 200 && res['_'] ) {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Se terminó el servicio con éxito');
+      } else {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Hubo un error al terminar el servicio: ${res['error']}');
+      }
+    }
+    else {
+      // ignore: use_build_context_synchronously
+      DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
+    }
   }
 
-  void _cancelaServicio() {
+  void _cancelaServicio() async {
+    Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
+    Map<String, dynamic> tieneServicio = await cli.tieneServicio();
+
+    if ( !tieneServicio['_']['tieneServicio'] ) {
+      Map<String, dynamic> res = await cli.cancelaServicio( serv.servicioID );
+      
+      if ( res['stat'] == 200 && res['_'] ) {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Se canceló el servicio con éxito');
+      } else {
+        // ignore: use_build_context_synchronously
+        DialogoAlerta.avisaInfo(context, 'Hubo un error al cancelar el servicio: ${res['error']}');
+      }
+    }
+    else {
+      // ignore: use_build_context_synchronously
+      DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
+    }
   }
 }
 

@@ -49,17 +49,19 @@ class Cliente extends Usuario {
     return res;
   }
 
-  Future< Map<String, dynamic> > cancelaServicio() async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/status', params: {
-
+  Future< Map<String, dynamic> > cancelaServicio(int servicioID) async {
+    Map<String, dynamic> res = await con.get(path: 'servicio/cancela', params: {
+      'clienteID': '$clienteID',
+      'servicioID': '$servicioID',
     });
 
     return res;
   }
 
-  Future< Map<String, dynamic> > terminaServicio() async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/status', params: {
-
+  Future< Map<String, dynamic> > terminaServicio(int servicioID) async {
+    Map<String, dynamic> res = await con.get(path: 'servicio/termina', params: {
+      'clienteID': '$clienteID',
+      'servicioID': '$servicioID',
     });
 
     return res;
