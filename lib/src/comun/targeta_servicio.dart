@@ -143,10 +143,9 @@ class _TargetaServicioState extends State<TargetaServicio> {
     Taxista tax = Taxista( usuarioID: 0, taxistaID: widget.taxistaID!);
     Map<String, dynamic> tieneServicio = await tax.tieneServicio();
 
-    if ( !tieneServicio['_'] ) {
+    if ( !tieneServicio['_']['tieneServicio'] ) {
       serv.taxistaID = widget.taxistaID!;
-      serv.statusServicioID = 2; /* Ocupado */
-      Map<String, dynamic> res = await serv.editaEnDB();
+      Map<String, dynamic> res = await serv.asignaTaxista();
       
       if ( res['stat'] == 200 && res['_'] ) {
         // ignore: use_build_context_synchronously

@@ -105,7 +105,7 @@ class MapaServicio extends StatelessWidget {
       options: MapOptions(
         minZoom: 5,
         maxZoom: 25,
-        zoom: 20,
+        zoom: 14,
         center: posicionIni,
       ),
       nonRotatedChildren: [

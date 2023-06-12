@@ -83,7 +83,9 @@ final routerBeansDriver = GoRouter(
               );
             }
             else if ( int.parse( state.pathParameters['rolUsuario']! ) == 2 ) {
-              return const ViewSirveServicio();
+              return ViewSirveServicio(
+                usuarioID: int.parse( state.pathParameters['usuarioID']! ),
+              );
             }
             
             return const Center( child: Text("Servicio"), );
