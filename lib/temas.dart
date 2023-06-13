@@ -23,7 +23,7 @@ class Temas {
     background: Temas.blanco,
     onBackground: Temas.negro,
     surface: Temas.amarilloVerdeClaro,
-    onSurface: Temas.negro,
+    onSurface: Temas.amarilloVerdeClaro,
   );
 
   static ColorScheme colorSchemeOscuro = ColorScheme(
@@ -46,6 +46,9 @@ class Temas {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Temas.colorSchemeClaro.background,
+      border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Temas.colorSchemeClaro.background,
@@ -60,6 +63,9 @@ class Temas {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Temas.colorSchemeOscuro.background,
+      border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(30),
+      ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Temas.colorSchemeOscuro.background,
