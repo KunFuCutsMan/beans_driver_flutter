@@ -23,76 +23,105 @@ class _DrawerUsuarioState extends State<DrawerUsuario> {
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.background,
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary
-            ),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                "Opciones",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
-          ),
 
           UserAccountsDrawerHeader(
             accountName: Text("${widget.per.nombre} ${widget.per.apePrimero} ${widget.per.apeSegundo}"),
             accountEmail: Text("${widget.usu.correo}"),
-            currentAccountPictureSize: const Size.square(90),
-            currentAccountPicture: AvatarUsuario(usu: widget.usu, per: widget.per, permiteEditar: false),
+            currentAccountPictureSize: const Size.square(80),
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+            child: AvatarUsuario(usu: widget.usu, per: widget.per, permiteEditar: false),
+            ),
+            ),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              image: const DecorationImage(image: AssetImage('assets/images/background_decoration.png'), fit: BoxFit.cover),
+            ),
           ),
 
-          const Divider( thickness: 2, ),
+          const SizedBox( height: 12, ),
+
+          const Row(
+            children: [
+            Expanded(child: Divider(thickness: 2,)),
+            Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text('Ajustes'),
+            ),
+            Expanded(child: Divider(thickness: 2,)),
+            ],
+          ),
+
+          SwitchListTile(
+            value: Theme.of(context).brightness == Brightness.dark,
+            title: const Text("Tema Oscuro"),
+            secondary: Icon(Icons.mode_night, color: Theme.of(context).colorScheme.onBackground,),
+            onChanged: _cambiaTema,
+          ),
+
           ListTile(
             title: const Text("Cerrar sesión"),
             leading: Icon(Icons.logout, color: Theme.of(context).colorScheme.onBackground,),
             onTap: _cierraSesion,
           ),
 
-          const Divider( thickness: 2, ),
-          SwitchListTile(
-            value: Theme.of(context).brightness == Brightness.dark,
-            title: const Text("Tema Oscuro"),
-            onChanged: _cambiaTema,
-          ),
-          
-          const Divider( thickness: 2, ),
-          const SizedBox( height: 20, ),
+          const SizedBox( height: 5, ),
 
-          const Divider( thickness: 2, ),
+          const Row(
+            children: [
+            Expanded(child: Divider(thickness: 2,)),
+            Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text('Social e Informativo'),
+            ),
+            Expanded(child: Divider(thickness: 2,)),
+            ],
+          ),
+
+          const SizedBox( height: 5, ),
+      
           ListTile(
             title: const Text("Compartir"),
             leading: Icon( Icons.share, color: Theme.of(context).colorScheme.onBackground, ),
             onTap: _comparteApp,
           ),
 
-          const Divider( thickness: 2, ),
           ListTile(
             title: const Text("Dev Notes"),
             leading: Icon( Icons.logo_dev, color: Theme.of(context).colorScheme.onBackground, ),
             onTap: _muestraNotas,
           ),
           
-          const Divider( thickness: 2, ),
           ListTile(
             title: const Text("Ayuda"),
             leading: Icon( Icons.question_mark, color: Theme.of(context).colorScheme.onBackground ),
             onTap: _enlazaSitio,
           ),
 
-          const Divider( thickness: 2, ),
-          const SizedBox(height: 20, ),
+          const SizedBox( height: 5, ),
 
-          const Divider( thickness: 2, ),
+          const Row(
+            children: [
+            Expanded(child: Divider(thickness: 2,)),
+            Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text('Codigos Promocionales'),
+            ),
+            Expanded(child: Divider(thickness: 2,)),
+            ],
+          ),
+
+          const SizedBox( height: 5, ),
+         
           ListTile(
             title: const Text("Canjear código"),
             leading: Icon(Icons.password, color: Theme.of(context).colorScheme.onBackground ),
             onTap: _canjeaCodigo,
           ),
 
-          const Divider( thickness: 4, ),
+          //const Divider( thickness: 4, ),
 
         ],
       ),
