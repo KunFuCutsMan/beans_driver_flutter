@@ -50,7 +50,7 @@ class Cliente extends Usuario {
   }
 
   Future< Map<String, dynamic> > cancelaServicio(int servicioID) async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/cancela', params: {
+    Map<String, dynamic> res = await con.post(path: 'servicio/cancela', params: {
       'clienteID': '$clienteID',
       'servicioID': '$servicioID',
     });
@@ -59,13 +59,16 @@ class Cliente extends Usuario {
   }
 
   Future< Map<String, dynamic> > terminaServicio(int servicioID) async {
-    Map<String, dynamic> res = await con.get(path: 'servicio/termina', params: {
+    Map<String, dynamic> res = await con.post(path: 'servicio/termina', params: {
       'clienteID': '$clienteID',
       'servicioID': '$servicioID',
     });
 
     return res;
   }
+
+  @override
+  get otraID => clienteID;
 
   @override
   String toString() {

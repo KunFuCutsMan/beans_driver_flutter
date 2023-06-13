@@ -40,7 +40,7 @@ class _PantallaHomeState extends State<PantallaHome> {
 
       setState(() { _isListo = true; });
       if ( res['stat'] == 200 && res['_']['tieneServicio'] ) {
-        setState(() { servicioID = int.parse(res['_']['servicioID'][0]); });
+        setState(() {servicioID = int.parse(res['_']['servicioID'][0]); });
       }
     }();
     
@@ -53,7 +53,9 @@ class _PantallaHomeState extends State<PantallaHome> {
       child: Center(
         child: _isListo
           ? servicioID > 0
-            ? TargetaServicio(servicioID: servicioID, vista: vista)
+            ? usu.rolUsuarioID == 1
+              ? TargetaServicio(servicioID: servicioID, vista: vista, clienteID: usu.otraID,)
+              : TargetaServicio(servicioID: servicioID, vista: vista, taxistaID: usu.otraID,)
             : const ObjetoVacio(mensaje: "Bienvenido, no tiene un servicio asignado")
           : const Text("El legendario pantalla_home"),
       ),

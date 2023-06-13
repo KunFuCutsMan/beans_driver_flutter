@@ -168,7 +168,7 @@ class _TargetaServicioState extends State<TargetaServicio> {
     Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
     Map<String, dynamic> tieneServicio = await cli.tieneServicio();
 
-    if ( !tieneServicio['_']['tieneServicio'] ) {
+    if ( tieneServicio['_']['tieneServicio'] ) {
       Map<String, dynamic> res = await cli.terminaServicio( serv.servicioID );
       
       if ( res['stat'] == 200 && res['_'] ) {
@@ -189,7 +189,7 @@ class _TargetaServicioState extends State<TargetaServicio> {
     Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
     Map<String, dynamic> tieneServicio = await cli.tieneServicio();
 
-    if ( !tieneServicio['_']['tieneServicio'] ) {
+    if ( tieneServicio['_']['tieneServicio'] ) {
       Map<String, dynamic> res = await cli.cancelaServicio( serv.servicioID );
       
       if ( res['stat'] == 200 && res['_'] ) {

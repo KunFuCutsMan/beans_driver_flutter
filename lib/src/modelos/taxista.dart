@@ -50,6 +50,9 @@ class Taxista extends Usuario {
   }
 
   @override
+  get otraID => taxistaID;
+
+  @override
   String toString() {
     return "Taxista: TaxistaID: $taxistaID, ${super.toString()}";
   }

@@ -95,6 +95,9 @@ class Usuario {
     return res;
   }
 
+  // Sobreescríbeme
+  get otraID => usuarioID;
+
   @override
   String toString() {
     return "Usuario: usuarioID: $usuarioID, correo: $correo, contrasena: $contrasena,"
