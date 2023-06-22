@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class Menu extends StatefulWidget {
   const Menu({Key? key, required this.cuerpo}) : super(key: key);
@@ -19,10 +20,16 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   Usuario usu = Usuario(usuarioID: 0);
   Persona per = Persona(personaID: 0);
+  bool isKeyboardVisible = false;
 
   @override
   void initState() {
     super.initState();
+    KeyboardVisibilityController().onChange.listen((bool visible) {
+    setState(() {
+      isKeyboardVisible = visible;
+    });
+  });
 
     () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -51,7 +58,9 @@ class _MenuState extends State<Menu> {
         usu: usu,
       ),
       body: widget.cuerpo,
-      bottomNavigationBar: Container(
+      bottomNavigationBar: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: isKeyboardVisible ? 0 : 56, // la navbar se esconde cuando el teclado es visible
         color: Theme.of(context).colorScheme.onSurface,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
