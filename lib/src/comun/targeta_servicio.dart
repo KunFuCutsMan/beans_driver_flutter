@@ -1,12 +1,12 @@
 import 'dart:developer';
-
-import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/modelos/cliente.dart';
+import 'package:beans_driver_flutter/src/comun/dialogo_alerta.dart';
 import 'package:beans_driver_flutter/src/modelos/conecta_sql.dart';
 import 'package:beans_driver_flutter/src/modelos/servicio.dart';
 import 'package:beans_driver_flutter/src/modelos/taxista.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 
 enum VeTargetaComo {
   taxista,
@@ -19,20 +19,20 @@ class TargetaServicio extends StatefulWidget {
   final VeTargetaComo vista;
   final int? taxistaID;
   final int? clienteID;
+
   const TargetaServicio({
-    super.key,
+    Key? key,
     required this.servicioID,
     required this.vista,
     this.taxistaID,
     this.clienteID,
-  });
+  }) : super(key: key);
 
   @override
   State<TargetaServicio> createState() => _TargetaServicioState();
 }
 
 class _TargetaServicioState extends State<TargetaServicio> {
-
   late final Servicio serv;
   bool _isListo = false;
 
@@ -44,7 +44,9 @@ class _TargetaServicioState extends State<TargetaServicio> {
     () async {
       await serv.obtenServicioEnDB();
       log(serv.toString());
-      setState(() { _isListo = true; });
+      setState(() {
+        _isListo = true;
+      });
     }();
   }
 
@@ -60,37 +62,46 @@ class _TargetaServicioState extends State<TargetaServicio> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-      
-            _isListo ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(tipoServicio(serv.tipoServicioID!), style: Theme.of(context).textTheme.labelLarge),
-                Text(fechaServicio(serv.fecha!), style: Theme.of(context).textTheme.labelLarge),
-                Text(horaServicio(serv.hora!), style: Theme.of(context).textTheme.labelLarge),
-              ],
-            ) : const Text(""),
+            _isListo
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        tipoServicio(serv.tipoServicioID!),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        fechaServicio(serv.fecha!),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        horaServicio(serv.hora!),
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
 
-            _isListo ? UbicacionTexto(serv: serv) : const Text(""),
+            _isListo ? UbicacionTexto(serv: serv) : const SizedBox(),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                   onPressed: () => context.push('/mapa/${widget.servicioID}'),
                   child: const Text("Ubicación"),
                 ),
 
-                if ( widget.vista == VeTargetaComo.cliente )
+                if (widget.vista == VeTargetaComo.cliente)
                   ...botonesCliente(),
-                
-                if ( widget.vista == VeTargetaComo.taxista )
+
+                if (widget.vista == VeTargetaComo.taxista)
                   ...botonesTaxista(),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -98,88 +109,84 @@ class _TargetaServicioState extends State<TargetaServicio> {
   }
 
   List<Widget> botonesCliente() => [
-    ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.secondary
-      ),
-      onPressed: _terminaServicio,
-      child: const Text("Terminar")
-    ),
-    ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.secondary
-      ),
-      onPressed: _cancelaServicio,
-      child: const Text("Cancelar")
-    ),
-  ];
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+          onPressed: _terminaServicio,
+          child: const Text("Terminar"),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+          onPressed: _cancelaServicio,
+          child: const Text("Cancelar"),
+        ),
+      ];
 
   List<Widget> botonesTaxista() => [
-    ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.secondary
-      ),
-      onPressed: _asignaServicioATaxista,
-      child: const Text("Escoger")
-    ),
-  ];
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+          onPressed: _asignaServicioATaxista,
+          child: const Text("Escoger"),
+        ),
+      ];
 
   String tipoServicio(int tipoServicioID) => tipoServicioID == 1
       ? "Normal"
       : tipoServicioID == 2
-        ? "Recurrente" : "";
+          ? "Recurrente"
+          : "";
 
-  String fechaServicio(DateTime t) => "${t.day}-${t.month}-${t.year}";
+  String fechaServicio(DateTime t) =>
+      "${t.day}-${t.month}-${t.year}";
 
   String horaServicio(DateTime h) {
-    String minuto = h.minute < 9
-      ? "0${h.minute}"
-      : "${h.minute}";
+    String minuto = h.minute < 9 ? "0${h.minute}" : "${h.minute}";
     return "${h.hour}:$minuto";
   }
 
-
   void _asignaServicioATaxista() async {
-
-    Taxista tax = Taxista( usuarioID: 0, taxistaID: widget.taxistaID!);
+    Taxista tax = Taxista(usuarioID: 0, taxistaID: widget.taxistaID!);
     Map<String, dynamic> tieneServicio = await tax.tieneServicio();
 
-    if ( !tieneServicio['_']['tieneServicio'] ) {
+    if (!tieneServicio['_']['tieneServicio']) {
       serv.taxistaID = widget.taxistaID!;
       Map<String, dynamic> res = await serv.asignaTaxista();
-      
-      if ( res['stat'] == 200 && res['_'] ) {
+
+      if (res['stat'] == 200 && res['_']) {
         // ignore: use_build_context_synchronously
         DialogoAlerta.avisaInfo(context, 'Se asignó el servicio con éxito');
       } else {
         // ignore: use_build_context_synchronously
-        DialogoAlerta.avisaInfo(context, 'Hubo un error al asignar el servicio: ${res['error']}');
+        DialogoAlerta.avisaInfo(
+            context, 'Hubo un error al asignar el servicio: ${res['error']}');
       }
-    }
-    else {
+    } else {
       // ignore: use_build_context_synchronously
       DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
     }
-
-    
   }
 
   void _terminaServicio() async {
     Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
     Map<String, dynamic> tieneServicio = await cli.tieneServicio();
 
-    if ( tieneServicio['_']['tieneServicio'] ) {
-      Map<String, dynamic> res = await cli.terminaServicio( serv.servicioID );
-      
-      if ( res['stat'] == 200 && res['_'] ) {
+    if (tieneServicio['_']['tieneServicio']) {
+      Map<String, dynamic> res = await cli.terminaServicio(serv.servicioID);
+
+      if (res['stat'] == 200 && res['_']) {
         // ignore: use_build_context_synchronously
         DialogoAlerta.avisaInfo(context, 'Se terminó el servicio con éxito');
       } else {
         // ignore: use_build_context_synchronously
-        DialogoAlerta.avisaInfo(context, 'Hubo un error al terminar el servicio: ${res['error']}');
+        DialogoAlerta.avisaInfo(
+            context, 'Hubo un error al terminar el servicio: ${res['error']}');
       }
-    }
-    else {
+    } else {
       // ignore: use_build_context_synchronously
       DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
     }
@@ -189,18 +196,18 @@ class _TargetaServicioState extends State<TargetaServicio> {
     Cliente cli = Cliente(usuarioID: 0, clienteID: widget.clienteID!);
     Map<String, dynamic> tieneServicio = await cli.tieneServicio();
 
-    if ( tieneServicio['_']['tieneServicio'] ) {
-      Map<String, dynamic> res = await cli.cancelaServicio( serv.servicioID );
-      
-      if ( res['stat'] == 200 && res['_'] ) {
+    if (tieneServicio['_']['tieneServicio']) {
+      Map<String, dynamic> res = await cli.cancelaServicio(serv.servicioID);
+
+      if (res['stat'] == 200 && res['_']) {
         // ignore: use_build_context_synchronously
         DialogoAlerta.avisaInfo(context, 'Se canceló el servicio con éxito');
       } else {
         // ignore: use_build_context_synchronously
-        DialogoAlerta.avisaInfo(context, 'Hubo un error al cancelar el servicio: ${res['error']}');
+        DialogoAlerta.avisaInfo(
+            context, 'Hubo un error al cancelar el servicio: ${res['error']}');
       }
-    }
-    else {
+    } else {
       // ignore: use_build_context_synchronously
       DialogoAlerta.avisaInfo(context, 'Ya tiene un servicio asignado');
     }
@@ -209,14 +216,14 @@ class _TargetaServicioState extends State<TargetaServicio> {
 
 class UbicacionTexto extends StatefulWidget {
   final Servicio serv;
-  const UbicacionTexto({super.key, required this.serv});
+
+  const UbicacionTexto({Key? key, required this.serv}) : super(key: key);
 
   @override
   State<UbicacionTexto> createState() => _UbicacionTextoState();
 }
 
 class _UbicacionTextoState extends State<UbicacionTexto> {
-
   String estadoFinal = "";
   String muniFinal = "";
   String localFinal = "";
@@ -241,12 +248,17 @@ class _UbicacionTextoState extends State<UbicacionTexto> {
 
       // Obten los nombres de las localidades
       List res = await Future.wait([
-        con.get(path: "ubicaciones", params: { 'e': edoIni, }),
-        con.get(path: "ubicaciones", params: { 'e': edoIni, 'm': munIni }),
-        con.get(path: "ubicaciones", params: { 'e': edoIni, 'm': munIni, 'l': locIni }),
-        con.get(path: "ubicaciones", params: { 'e': edoFin }),
-        con.get(path: "ubicaciones", params: { 'e': edoFin, 'm': munFin }),
-        con.get(path: "ubicaciones", params: { 'e': edoFin, 'm': munFin, 'l': locFin }),
+        con.get(path: "ubicaciones", params: {'e': edoIni}),
+        con.get(path: "ubicaciones", params: {'e': edoIni, 'm': munIni}),
+        con.get(
+            path: "ubicaciones",
+            params: {'e': edoIni, 'm': munIni, 'l': locIni}),
+        con.get(path: "ubicaciones", params: {'e': edoFin}),
+        con.get(path: "ubicaciones",
+            params: {'e': edoFin, 'm': munFin}),
+        con.get(
+            path: "ubicaciones",
+            params: {'e': edoFin, 'm': munFin, 'l': locFin}),
       ]);
 
       setState(() {
@@ -268,7 +280,10 @@ class _UbicacionTextoState extends State<UbicacionTexto> {
         // Ubicacion inicial
         Column(
           children: [
-            Text("Ubicación Inicial:", style: Theme.of(context).textTheme.titleSmall),
+            Text(
+              "Ubicación Inicial:",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             Text(estadoInicial),
             Text(muniInicial),
             Text(localInicial),
@@ -278,7 +293,10 @@ class _UbicacionTextoState extends State<UbicacionTexto> {
         // Ubicacion final
         Column(
           children: [
-            Text("Ubicación Final:", style: Theme.of(context).textTheme.titleSmall),
+            Text(
+              "Ubicación Final:",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             Text(estadoFinal),
             Text(muniFinal),
             Text(localFinal),
